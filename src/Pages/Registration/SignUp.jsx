@@ -4,19 +4,53 @@ import Lottie from 'lottie-react';
 import signUpAnimation from '../../assets/lottie/Animation - 1736870503843.json';
 import { FaUser, FaEnvelope, FaCamera, FaLock, FaGraduationCap } from 'react-icons/fa';
 import Social from '../../Common/Social Login/Social';
+import useAuth from '../../Hooks/useAuth';
+import useAxiosUser from '../../Hooks/useAxiosUser';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const SignUp = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset,
-    } = useForm();
+
+    const { createNewUser, updateUserProfile } = useAuth();
+    const axiosUser = useAxiosUser();
+    const navigate = useNavigate();
+
+
+    const { register, handleSubmit, formState: { errors }, reset, } = useForm();
+
 
     const onSubmit = (data) => {
-        console.log(data);
-        reset();
+        createNewUser(data.email, data.password)
+            .then(result => {
+
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email,
+                            role: data.role,
+                            photo: data.phtoURL
+                        };
+
+                        axiosUser.post('/signup', userInfo)
+                            .then(res => {
+                                if (data.insertedId) {
+
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: 'User profile updated successfully',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    });
+
+                                    navigate('/')
+                                }
+                            })
+                    })
+            })
+
     };
 
     return (

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import auth from '../../Firebase/firebase.init';
 
 
@@ -8,6 +8,7 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
 
     const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
 
     // State
     const [user, setUser] = useState(null);
@@ -30,6 +31,12 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, googleProvider);
     };
 
+    // Sign in with GitHub
+    const signInWithGithub = () => {
+        setLoading(true);
+        return signInWithPopup(auth, githubProvider);
+    };
+
     const logOut = () => {
         setLoading(true);
         return signOut(auth);
@@ -41,30 +48,6 @@ const AuthProvider = ({ children }) => {
         })
     };
 
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, currentUser => {
-    //         setUser(currentUser);
-
-    //         if (currentUser) {
-
-    //             const userInfo = { email: currentUser.email };
-    //             axiosPublic.post('jwt', userInfo)
-    //                 .then(res => {
-    //                     if (res.data.token) {
-    //                         localStorage.setItem('access-token', res.data.token);
-    //                         setLoading(false);
-    //                     }
-    //                 })
-    //         }
-    //         else {
-    //             localStorage.removeItem('access-token');
-    //             setLoading(false);
-    //         }
-
-    //     });
-
-    //     return unsubscribe;
-    // }, [axiosPublic]);
 
 
     useEffect(() => {
@@ -83,6 +66,7 @@ const AuthProvider = ({ children }) => {
         createNewUser,
         signIn,
         signInWithGoogle,
+        signInWithGithub,
         logOut,
         updateUserProfile
     };
