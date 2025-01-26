@@ -26,8 +26,8 @@ const adminMenuItems = [
 ];
 
 const Dashboard = () => {
-    const isAdmin = true;
-    const isTutor = false;
+    const isAdmin = false;
+    const isTutor = true;
 
     let menuItems = studentMenuItems;
     if (isAdmin) {

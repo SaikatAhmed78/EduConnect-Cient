@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosUser from "../../Hooks/useAxiosUser";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../Common/Spinner/LoadingSpinner";
 
 const image_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -12,10 +14,23 @@ const UploadMaterials = ({ session }) => {
     const axiosUser = useAxiosUser();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [imageURL, setImageURL] = useState(null);
-    const [isUploading, setIsUploading] = useState(false);
+    const [isUploading, setUploading] = useState(false);
+    const [sessionId, setSessionId] = useState('');
+
+    console.log(sessionId)
+
+
+    const { data: allsessionIds = [], isPending, refetch } = useQuery({
+        queryKey: ['allsessionIds', axiosUser],
+        queryFn: async () => {
+            const res = await axiosUser.get('/allsessionIds')
+            const data = await res.data
+            return data;
+        }
+    })
 
     const handleImageUpload = async (e) => {
-        setIsUploading(true);
+        setUploading(true);
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append("image", file);
@@ -39,7 +54,7 @@ const UploadMaterials = ({ session }) => {
                 text: error.message,
             });
         } finally {
-            setIsUploading(false);
+            setUploading(false);
         }
     };
 
@@ -54,7 +69,7 @@ const UploadMaterials = ({ session }) => {
             return;
         }
 
-        if (!session?.id) {
+        if (!sessionId) {
             Swal.fire({
                 icon: "error",
                 title: "Session ID is missing",
@@ -66,11 +81,12 @@ const UploadMaterials = ({ session }) => {
 
         const materialsData = {
             title: data.title,
-            sessionId: session.id,
+            sessionId: sessionId,
             tutorEmail: user.email,
             image: imageURL,
             link: data.link,
         };
+        console.log(materialsData)
 
         try {
             const res = await axiosUser.post("/upload-material", materialsData);
@@ -94,6 +110,7 @@ const UploadMaterials = ({ session }) => {
     };
 
 
+
     return (
         <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg space-y-6">
             <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Upload Study Materials</h2>
@@ -110,15 +127,16 @@ const UploadMaterials = ({ session }) => {
                 </div>
 
                 {/* Session ID Field */}
-                <div>
-                    <label className="block text-gray-700 mb-2">Session ID</label>
-                    <input
-                        type="text"
-                        value={session?.id || "ID not found"}
-                        readOnly
-                        className="w-full p-3 border bg-gray-100 rounded-lg"
-                    />
-                </div>
+                <select className="select select-bordered w-full" onChange={(e) => setSessionId(e.target.value)}>
+                    <option disabled selected>Who shot first?</option>
+
+
+
+                    {
+                        isPending ? <LoadingSpinner></LoadingSpinner> :
+                            allsessionIds.map(session => <option key={session._id} value={session._id}>{session._id}</option>)
+                    }
+                </select>
 
                 {/* Tutor Email Field */}
                 <div>
