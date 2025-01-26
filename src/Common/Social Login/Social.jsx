@@ -19,11 +19,10 @@ const Social = () => {
 
                 console.log("User Info:", userInfo);
 
-                // Send user info to backend to sign up or check if the user already exists
                 axiosUser
-                    .post("/signup", userInfo)  // Changed to '/signup' endpoint
+                    .post("/signup", userInfo)
                     .then((response) => {
-                        // Check if user exists already or is successfully signed up
+
                         if (response.data.insertedId) {
                             Swal.fire({
                                 icon: 'success',
@@ -32,10 +31,10 @@ const Social = () => {
                                 timer: 2000,
                                 showConfirmButton: false,
                             }).then(() => {
-                                navigate("/");  // Redirect to home page
+                                navigate("/");
                             });
                         } else {
-                            // User already exists logic
+
                             Swal.fire({
                                 icon: 'info',
                                 title: 'User already exists!',
@@ -64,7 +63,7 @@ const Social = () => {
             });
     };
 
-    // Handle GitHub Sign-In
+
     const handleGithubSignIn = () => {
         signInWithGithub()
             .then((result) => {
@@ -73,13 +72,13 @@ const Social = () => {
                     name: result.user.displayName,
                 };
 
-                console.log("User Info:", userInfo);  // Debugging
+                console.log("User Info:", userInfo);
 
-                // Send user info to backend to sign up or check if the user already exists
+
                 axiosUser
-                    .post("/signup", userInfo)  // Changed to '/signup' endpoint
+                    .post("/signup", userInfo)
                     .then((response) => {
-                        // Check if user exists already or is successfully signed up
+
                         if (response.data.insertedId) {
                             Swal.fire({
                                 icon: 'success',
@@ -88,7 +87,7 @@ const Social = () => {
                                 timer: 2000,
                                 showConfirmButton: false,
                             }).then(() => {
-                                navigate("/");  // Redirect to home page
+                                navigate("/");
                             });
                         } else {
                             // User already exists logic
@@ -97,7 +96,7 @@ const Social = () => {
                                 title: 'User already exists!',
                                 text: 'Welcome back!',
                             }).then(() => {
-                                navigate("/");  // Redirect to home page
+                                navigate("/");
                             });
                         }
                     })

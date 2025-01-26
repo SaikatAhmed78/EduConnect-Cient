@@ -14,6 +14,11 @@ import ViewAllStudySession from "../Components/Tutor Dashboard/ViewAllStudySessi
 import ErrorPage from "../Common/ErrorPage";
 import UploadMeterials from "../Components/Tutor Dashboard/UploadMeterials";
 import ViewAllMeterials from "../Components/Tutor Dashboard/ViewAllMeterials";
+import ViewAllUsers from "../Components/Admin Dashboard/ViewAllUsers";
+import AboutUs from "../Pages/AboutUs";
+import ViewAllStudySessionA from "../Components/Admin Dashboard/ViewAllStudySessionA";
+import ViewAllMaterials from "../Components/Tutor Dashboard/ViewAllMeterials";
+import ViewAllMaterialsA from "../Components/Admin Dashboard/ViewAllMaterialsA";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +38,10 @@ const router = createBrowserRouter([
                 path: '/login',
                 element: <Login></Login>
             },
+            {
+                path: '/aboutUs',
+                element: <AboutUs></AboutUs>
+            },
 
         ]
     },
@@ -42,8 +51,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         errorElement: <ErrorPage></ErrorPage>,
 
-        // student
+
         children: [
+
+            // student
             {
                 path: 'create-note',
                 element: <CreateNote></CreateNote>
@@ -78,6 +89,20 @@ const router = createBrowserRouter([
             {
                 path: 'view-all-materials',
                 element: <ViewAllMeterials></ViewAllMeterials>
+            },
+
+            // admin
+            {
+                path: 'view-all-users',
+                element: <ViewAllUsers></ViewAllUsers>
+            },
+            {
+                path: 'view-all-study-sessionA',
+                element: <ViewAllStudySessionA></ViewAllStudySessionA>
+            },
+            {
+                path: 'view-all-materialsA',
+                element: <ViewAllMaterialsA></ViewAllMaterialsA>
             },
         ]
     },

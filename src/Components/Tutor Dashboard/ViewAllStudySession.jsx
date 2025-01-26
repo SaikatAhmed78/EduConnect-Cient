@@ -1,12 +1,13 @@
-import React from "react";
-import Swal from "sweetalert2";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosUser from "../../Hooks/useAxiosUser";
-import SessionCard from "../Card/SessionCard";
+import LoadingSpinner from "../../Common/Spinner/LoadingSpinner";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 const ViewAllStudySession = () => {
     const axiosUser = useAxiosUser();
     const queryClient = useQueryClient();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { data: sessions = [], isLoading, isError, error } = useQuery({
         queryKey: ["studySessions"],
@@ -16,46 +17,61 @@ const ViewAllStudySession = () => {
         },
     });
 
-    const resendApprovalMutation = useMutation({
-        mutationFn: async (sessionId) => {
-            return await axiosUser.patch(`/resend-approval/${sessionId}`, { status: "pending" });
-        },
-        onSuccess: () => {
-            Swal.fire({
-                icon: "success",
-                title: "Approval Request Sent!",
-                showConfirmButton: false,
-                timer: 1500,
-            });
+    const handleReapprovalRequest = async (sessionId) => {
+        setIsSubmitting(true);
+        try {
+            await axiosUser.patch(`/sessions/${sessionId}`, { status: "pending" });
+            Swal.fire("Request Sent!", "Your re-approval request has been sent to the admin.", "success");
             queryClient.invalidateQueries(["studySessions"]);
-        },
-        onError: (error) => {
-            console.error("Error sending approval request:", error);
-            Swal.fire({
-                icon: "error",
-                title: "Something went wrong!",
-                text: error.message,
-            });
-        },
-    });
-
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error: {error.message}</div>;
-
-    const handleResendApproval = (sessionId) => {
-        resendApprovalMutation.mutate(sessionId);
+        } catch (error) {
+            Swal.fire("Error!", "Something went wrong while sending the request.", "error");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
+    if (isLoading) return <LoadingSpinner />;
+
+
     return (
-        <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-3xl font-bold mb-6 text-center">All Study Sessions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="p-5">
+            <h1 className="text-3xl font-bold text-center mb-5 text-gray-800">My Study Sessions</h1>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {sessions.map((session) => (
-                    <SessionCard
+                    <div
                         key={session._id}
-                        session={session}
-                        onResendApproval={handleResendApproval}
-                    />
+                        className={`shadow-lg rounded-lg p-5 border ${session.status === "approved"
+                            ? "border-green-500"
+                            : session.status === "rejected"
+                                ? "border-red-500"
+                                : "border-gray-400"
+                            }`}
+                    >
+                        <h2 className="text-xl font-semibold text-gray-700">{session.title}</h2>
+                        <p className="text-sm text-gray-500 mt-2">{session.description}</p>
+                        <p className="text-sm mt-3">
+                            <span className="font-semibold">Status: </span>
+                            <span
+                                className={`${session.status === "approved"
+                                    ? "text-green-500"
+                                    : session.status === "rejected"
+                                        ? "text-red-500"
+                                        : "text-gray-500"
+                                    }`}
+                            >
+                                {session.status}
+                            </span>
+                        </p>
+                        {session.status === "rejected" && (
+                            <button
+                                onClick={() => handleReapprovalRequest(session._id)}
+                                className="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? "Sending..." : "Request Reapproval"}
+                            </button>
+                        )}
+                    </div>
                 ))}
             </div>
         </div>

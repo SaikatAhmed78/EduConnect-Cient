@@ -1,23 +1,24 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 
-const ErrorPage = () => {
+import React from "react";
+import { Link } from "react-router-dom";
+
+const Page404 = () => {
+
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-            <div className="bg-white p-10 rounded-lg shadow-lg text-center">
-                <h1 className="text-8xl font-extrabold text-gray-900">404</h1>
-                <p className="mt-4 text-2xl font-semibold text-gray-600">Page Not Found</p>
-                <p className="mt-2 text-gray-500">
-                    The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
-                </p>
-                <Link to="/" className="mt-6">
-                    <button className="px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
-                        Go Home
-                    </button>
-                </Link>
-            </div>
+        <div className="boxShadow px-10 w-full flex items-center flex-col justify-center py-20 rounded-xl">
+            <img src="https://i.ibb.co/SVMTKPy/Frame-5.png" alt="illustration"
+                className="w-full lg:w-[400px]" />
+            <p className="text-[#73718A] text-[0.9rem] sm:text-[1.2rem] w-full lg:w-[55%] text-center mt-10 lg:mt-4">The
+                page cannot be found. The requested
+                URL was not found on this server.</p>
+
+            <Link to="/">
+                <button className="py-3 px-8 rounded-full bg-[#4538FF] text-white mt-8">Back to
+                    home
+                </button>
+            </Link>
         </div>
     );
 };
 
-export default ErrorPage;
+export default Page404;

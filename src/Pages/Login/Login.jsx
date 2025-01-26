@@ -9,6 +9,7 @@ import loginImg from '../../assets/banner/4966434.jpg'
 const Login = () => {
     const { signIn } = useAuth();
     const navigate = useNavigate();
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [loginError, setLoginError] = useState('');
 

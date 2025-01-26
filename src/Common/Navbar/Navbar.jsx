@@ -47,6 +47,7 @@ const Navbar = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal space-x-4">
                     <li><Link to="/" className="hover:text-yellow-400">Home</Link></li>
+                    <li><Link to="/aboutUs" className="hover:text-yellow-400">About Us</Link></li>
                     {user && (
                         <li><Link to="/dashboard" className="hover:text-yellow-400">Dashboard</Link></li>
                     )}
