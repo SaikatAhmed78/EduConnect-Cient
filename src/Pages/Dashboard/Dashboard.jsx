@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FaHome, FaPlus, FaEdit, FaCalendarAlt, FaUsers, FaUserShield } from 'react-icons/fa';
+import useAdminRole from '../../Hooks/useAdminRole';
+import useTutorRole from '../../Hooks/useTutorRole';
 
 const tutorMenuItems = [
     { to: "/", label: "Home", icon: <FaHome />, end: true },
@@ -26,14 +28,19 @@ const adminMenuItems = [
 ];
 
 const Dashboard = () => {
-    const isAdmin = false;
-    const isTutor = true;
+    const [isAdmin, isPending] = useAdminRole();
+    const [isTutor,  isTutorPending] = useTutorRole();
+    console.log({isAdmin, isTutor})
 
     let menuItems = studentMenuItems;
+
     if (isAdmin) {
         menuItems = adminMenuItems;
     } else if (isTutor) {
         menuItems = tutorMenuItems;
+    }
+    else{
+        menuItems= studentMenuItems
     }
 
     return (

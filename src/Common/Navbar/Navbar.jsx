@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaUserCircle, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import LoadingSpinner from '../Spinner/LoadingSpinner';
 
 
+
 const Navbar = () => {
     const { user, logOut, loading } = useAuth();
     const navigate = useNavigate();
+    
 
     const handleSignOut = async () => {
         try {

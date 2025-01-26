@@ -17,7 +17,7 @@ const UploadMaterials = ({ session }) => {
     const [isUploading, setUploading] = useState(false);
     const [sessionId, setSessionId] = useState('');
 
-    console.log(sessionId)
+
 
 
     const { data: allsessionIds = [], isPending, refetch } = useQuery({
@@ -86,7 +86,7 @@ const UploadMaterials = ({ session }) => {
             image: imageURL,
             link: data.link,
         };
-        console.log(materialsData)
+
 
         try {
             const res = await axiosUser.post("/upload-material", materialsData);
@@ -115,7 +115,7 @@ const UploadMaterials = ({ session }) => {
         <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg space-y-6">
             <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Upload Study Materials</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                {/* Title Field */}
+
                 <div>
                     <label className="block text-gray-700 mb-2">Material Title</label>
                     <input
@@ -128,7 +128,7 @@ const UploadMaterials = ({ session }) => {
 
                 {/* Session ID Field */}
                 <select className="select select-bordered w-full" onChange={(e) => setSessionId(e.target.value)}>
-                    <option disabled selected>Who shot first?</option>
+                    <option disabled selected>Select Id</option>
 
 
 
@@ -138,7 +138,7 @@ const UploadMaterials = ({ session }) => {
                     }
                 </select>
 
-                {/* Tutor Email Field */}
+
                 <div>
                     <label className="block text-gray-700 mb-2">Tutor Email</label>
                     <input
@@ -149,7 +149,7 @@ const UploadMaterials = ({ session }) => {
                     />
                 </div>
 
-                {/* Image Upload Field */}
+
                 <div>
                     <label className="block text-gray-700 mb-2">Upload Image</label>
                     <input
@@ -161,7 +161,7 @@ const UploadMaterials = ({ session }) => {
                     />
                 </div>
 
-                {/* Google Drive Link Field */}
+
                 <div>
                     <label className="block text-gray-700 mb-2">Resource Link (Google Drive)</label>
                     <input
@@ -172,7 +172,7 @@ const UploadMaterials = ({ session }) => {
                     {errors.link && <p className="text-red-500 mt-2">{errors.link.message}</p>}
                 </div>
 
-                {/* Submit Button */}
+
                 <button
                     type="submit"
                     className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition"
