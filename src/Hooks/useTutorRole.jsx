@@ -14,7 +14,7 @@ const useTutorRole = () => {
             if (user) {
                 const res = await axiosUser.get(`/users/tutor/${user?.email}`);
                 const data = await res?.data;
-                console.log(data)
+               
                 if (data) {
                     return data?.isTutor;
                 }

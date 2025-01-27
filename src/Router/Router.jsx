@@ -19,6 +19,7 @@ import AboutUs from "../Pages/AboutUs";
 import ViewAllStudySessionA from "../Components/Admin Dashboard/ViewAllStudySessionA";
 import ViewAllMaterials from "../Components/Tutor Dashboard/ViewAllMeterials";
 import ViewAllMaterialsA from "../Components/Admin Dashboard/ViewAllMaterialsA";
+import Payment from "../Components/Admin Dashboard/Payment/Payment";
 
 const router = createBrowserRouter([
     {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
             {
                 path: 'view-all-materialsA',
                 element: <ViewAllMaterialsA></ViewAllMaterialsA>
+            },
+            {
+                path: 'payment',
+                element: <Payment></Payment>
             },
         ]
     },

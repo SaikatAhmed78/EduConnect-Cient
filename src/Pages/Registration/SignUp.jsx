@@ -45,9 +45,10 @@ const SignUp = () => {
                                         confirmButtonText: 'OK'
                                     });
 
-                                    navigate('/')
                                 }
+                                
                             })
+                            navigate('/')
                     })
             })
 

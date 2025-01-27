@@ -4,6 +4,7 @@ import { FaHome, FaPlus, FaEdit, FaCalendarAlt, FaUsers, FaUserShield } from 're
 import useAdminRole from '../../Hooks/useAdminRole';
 import useTutorRole from '../../Hooks/useTutorRole';
 
+
 const tutorMenuItems = [
     { to: "/", label: "Home", icon: <FaHome />, end: true },
     { to: "/dashboard/create-study-session", label: "Create Study Session", icon: <FaPlus /> },
@@ -30,7 +31,7 @@ const adminMenuItems = [
 const Dashboard = () => {
     const [isAdmin, isPending] = useAdminRole();
     const [isTutor,  isTutorPending] = useTutorRole();
-    console.log({isAdmin, isTutor})
+   
 
     let menuItems = studentMenuItems;
 

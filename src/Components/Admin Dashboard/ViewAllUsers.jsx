@@ -26,6 +26,7 @@ const ViewAllUsers = () => {
     });
 
     const handleRoleChange = async (userId, newRole) => {
+    
         const result = await Swal.fire({
             title: 'Are you sure?',
             text: `You are about to change the user's role to ${newRole}.`,
@@ -35,12 +36,13 @@ const ViewAllUsers = () => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, update it!',
         });
-
+    
         if (result.isConfirmed) {
             try {
                 const response = await axiosUser.patch(`/users/${userId}`, {
                     role: newRole,
                 });
+    
                 if (response.status === 200) {
                     Swal.fire('Success!', 'User role updated successfully.', 'success');
                     refetch();
@@ -51,6 +53,7 @@ const ViewAllUsers = () => {
             }
         }
     };
+    
 
     if (isLoading) {
         return <LoadingSpinner />;

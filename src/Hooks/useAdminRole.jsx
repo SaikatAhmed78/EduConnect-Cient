@@ -13,7 +13,7 @@ const useAdminRole = () => {
             if (user) {
                 const res = await axiosUser.get(`/users/admin/${user?.email}`);
                 const data = await res?.data;
-                console.log(data)
+               
                 if (data) {
                     return data?.isAdmin;
                 }
