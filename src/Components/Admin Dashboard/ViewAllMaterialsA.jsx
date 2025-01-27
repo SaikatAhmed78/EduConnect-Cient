@@ -1,16 +1,19 @@
 import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import useAxiosUser from '../../Hooks/useAxiosUser';
+import LoadingSpinner from '../../Common/Spinner/LoadingSpinner';
 
 const ViewAllMaterialsA = () => {
     const queryClient = useQueryClient();
-    
+    const axiosUser = useAxiosUser();
+
     // Fetch materials using TanStack Query
     const { data: materials = [], isLoading, error } = useQuery({
         queryKey: ['materials'],
         queryFn: async () => {
             try {
-                const response = await axios.get('/materials');  
+                const response = await axiosUser.get('/getAllMeterials');
                 return response.data;
             } catch (err) {
                 console.error(err);
@@ -22,39 +25,57 @@ const ViewAllMaterialsA = () => {
     // Mutation to delete a material
     const { mutate: deleteMaterial } = useMutation({
         mutationFn: async (id) => {
-            await axios.delete(`/materials/${id}`);  // Adjust the endpoint based on your API
+            await axios.delete(`/materials/${id}`);
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['materials']);  // Re-fetch materials after deletion
         },
     });
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error fetching materials</div>;
+    if (isLoading) return <LoadingSpinner />;
+    if (error) return <div className="text-red-500 text-center">Error fetching materials</div>;
 
     return (
         <div className="container mx-auto p-6">
-            <h1 className="text-4xl font-semibold mb-6 text-center">All Materials</h1>
-            <div className="space-y-4">
-                {materials.map((material) => (
-                    <div
-                        key={material._id}
-                        className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-md"
-                    >
-                        <div className="flex-1">
-                            <h3 className="text-xl font-medium">{material.title}</h3>
-                            <p className="text-sm text-gray-600">{material.description}</p>
-                        </div>
-                        <div className="flex space-x-3">
-                            <button
-                                className="text-red-500 hover:text-red-700"
-                                onClick={() => deleteMaterial(material._id)}
-                            >
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                ))}
+            <h1 className="text-4xl font-semibold mb-6 text-center text-blue-600">All Materials</h1>
+
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white shadow-lg rounded-lg table-auto">
+                    <thead className="bg-blue-500 text-white">
+                        <tr>
+                            <th className="py-3 px-6 text-left">Title</th>
+                            <th className="py-3 px-6 text-left">Material Link</th>
+                            <th className="py-3 px-6 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {materials.map((material) => (
+                            <tr key={material._id} className="border-b hover:bg-gray-100">
+                                <td className="py-3 px-6 text-left font-medium">{material.title}</td>
+
+                                <td className="py-3 px-6 text-left">
+                                    <a
+                                        href={material.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-500 hover:text-blue-700"
+                                    >
+                                        View Material
+                                    </a>
+                                </td>
+                                <td className="py-3 px-6 text-left">
+                                    <button
+                                        onClick={() => deleteMaterial(material._id)}
+                                        className="text-red-500 hover:text-red-700 "
+                                    >
+                                        Remove
+                                    </button>
+
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
