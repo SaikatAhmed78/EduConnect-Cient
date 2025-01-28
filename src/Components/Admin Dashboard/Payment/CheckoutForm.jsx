@@ -6,11 +6,12 @@ import Swal from 'sweetalert2';
 import useAuth from '../../../Hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({sessionId: booksessionId}) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [sessionAmount, setSessionAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
+
 
     const {user, sessionId} = useAuth();
     const navigate = useNavigate();
@@ -76,14 +77,25 @@ const CheckoutForm = () => {
                     icon: "success"
                 });
 
-              
+              const bookedSessionsF = async() => {
+                
+                try{
+                    const res = await axiosUser.post(`postData/${booksessionId}`)
+                    const data = await res.data;
+                   
+                }
+                catch(err){console.log(err)}
+
+            }
+            bookedSessionsF();
 
                 const postPaymentInfo = async() => {
                     try{
                         const res = await axiosUser.patch(`/sessions/${sessionId}/payment-approved`);
                         const data = await res?.data;
                         console.log('Payment info set to the db:', data);
-                        navigate('/dashboard/view-all-study-sessionA')
+                        
+
                     }catch(err){
                         console.error(err);
                     }
@@ -94,6 +106,8 @@ const CheckoutForm = () => {
             }
         }
     };
+
+    
 
     return (
         <div className="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8 border border-gray-300">

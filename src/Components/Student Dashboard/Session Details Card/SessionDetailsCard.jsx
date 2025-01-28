@@ -3,13 +3,16 @@ import ReactStars from "react-rating-stars-component";
 import useAxiosUser from "../../../Hooks/useAxiosUser"; 
 import { useQuery } from "@tanstack/react-query"; 
 import { useNavigate, useParams } from "react-router-dom"; 
+import Swal from "sweetalert2";
 
 const SessionDetailsCard = () => { 
   const axiosUser = useAxiosUser(); 
   const [session, setSession] = useState(null); 
   const [reviews, setReviews] = useState([]);
-  const { sessionId } = useParams(); 
+  const { id: sessionId } = useParams();
   const navigate = useNavigate();
+  console.log(session)
+
 
  
   const { data, isLoading, isError, error, refetch } = useQuery({
@@ -18,10 +21,9 @@ const SessionDetailsCard = () => {
       const res = await axiosUser.get(`/sessions/${sessionId}`);
       return res.data;
     },
-    enabled: !!sessionId,  
+    enabled: !!sessionId,
   });
-
-  // Set session details and reviews when data is loaded or sessionId changes
+  
   useEffect(() => {
     if (data) {
       setSession(data.sessionDetails);
@@ -47,18 +49,37 @@ const SessionDetailsCard = () => {
     });
   };
 
-  const handleBookNow = () => {
-    // Logic for booking the session can be added here.
-    navigate('/dashboard/payment')
+  
+  const handleBookNow = async() => {
+   if(session.registrationFee == 0){
+    
+    try{
+        const res = await axiosUser.post(`/postData/${sessionId}`)
+        const data = await res.data;
+        console.log(data)
+
+        if(data.insertedId){
+            Swal.fire({
+                title: "Good job!",
+                text: "Session Booked Successfully!",
+                icon: "success"
+              });
+        }
+    }
+    catch(error){console.log(error)}
+   }else{
+
+       navigate('/dashboard/payment', {state: {sessionId}})
+   }
   };
 
-  // Loading and Error states
+
   if (isLoading) return <div className="text-center text-gray-700">Loading session details...</div>;
   if (isError) return <div className="text-center text-red-600">Error: {error.message}</div>;
 
   return (
     <div className="max-w-4xl mx-auto my-6 p-8 bg-white shadow-lg rounded-lg">
-      {/* Image Section */}
+
       <div className="flex justify-center">
         <img className="rounded-lg shadow-lg w-2/3" src={session?.image} alt={session?.title} />
       </div>
@@ -67,7 +88,7 @@ const SessionDetailsCard = () => {
         <strong>Tutor:</strong> {session?.tutorName}
       </p>
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Session Info */}
+
         <div className="text-lg text-gray-700">
           <p><strong>Description:</strong> {session?.description}</p>
           <p><strong>Registration Start:</strong> {formatDate(session?.registrationStartDate)}</p>
@@ -77,7 +98,7 @@ const SessionDetailsCard = () => {
           <p><strong>Session Duration:</strong> {session?.duration} hours</p>
           <p><strong>Registration Fee:</strong> ${session?.registrationFee}</p>
         </div>
-        {/* Action & Status */}
+
         <div className="text-lg text-gray-700">
           <h3 className="text-xl font-semibold text-gray-800">Session Status</h3>
           <p className="mt-4">

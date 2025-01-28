@@ -9,10 +9,10 @@ const ViewBookedSessions = () => {
   const { data: sessions = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: ['bookedSessions'],
     queryFn: async () => {
-      const response = await axiosUser.get('/booked-sessions');
+      const response = await axiosUser.get('/postData');
+      console.log(response.data)
       return response.data;
-    },
-    enabled: false,  
+    }
   });
 
   const handleRefetch = () => {

@@ -17,6 +17,8 @@ const Payment = () => {
 
     const [error, setError] = useState('');
     const location = useLocation();
+    const sessionId = location.state.sessionId
+
     const { amount } = location.state || {}
 
 
@@ -25,7 +27,7 @@ const Payment = () => {
         <div className="flex items-center justify-center">
 
             <Elements stripe={stripePromise}>
-                <CheckoutForm></CheckoutForm>
+                <CheckoutForm sessionId={sessionId}></CheckoutForm>
             </Elements>
         </div>
     );
