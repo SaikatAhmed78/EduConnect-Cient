@@ -10,7 +10,7 @@ const SessionDetail = () => {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(1);  1
 
-  // Fetch session details using TanStack Query's useQuery
+
   const { data: session, isLoading, isError, error } = useQuery({
     queryKey: ['sessionDetail', id],
     queryFn: async () => {
@@ -23,7 +23,7 @@ const SessionDetail = () => {
     e.preventDefault();
     const reviewData = { rating, reviewText: review };
 
-    // Make a POST request to submit the review
+   
     axiosUser.post(`/sessions/${id}/review`, reviewData)
       .then(() => {
         alert('Review submitted successfully!');

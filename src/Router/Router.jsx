@@ -21,6 +21,8 @@ import ViewAllMaterials from "../Components/Tutor Dashboard/ViewAllMeterials";
 import ViewAllMaterialsA from "../Components/Admin Dashboard/ViewAllMaterialsA";
 import Payment from "../Components/Admin Dashboard/Payment/Payment";
 import SessionDetail from "../Components/Student Dashboard/SessionDetail/SessionDetail";
+import SessionDetailsCard from "../Components/Student Dashboard/Session Details Card/SessionDetailsCard";
+
 
 const router = createBrowserRouter([
     {
@@ -72,6 +74,10 @@ const router = createBrowserRouter([
             {
                 path: 'session/:id',
                 element: <SessionDetail></SessionDetail>
+            },
+            {
+                path: 'session-details-card/:id',
+                element: <SessionDetailsCard></SessionDetailsCard>
             },
             {
                 path: 'view-study-meterials',

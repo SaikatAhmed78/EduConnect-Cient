@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LoadingSpinner from '../../Common/Spinner/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
 const StudySessionCard = ({ session, onReadMore }) => {
-    const { title, description, registrationDeadline, image } = session;
+    const { title, description, registrationDeadline, image, _id } = session;
 
     const checkStatus = (deadline) => {
         const currentDate = new Date();
@@ -34,12 +35,13 @@ const StudySessionCard = ({ session, onReadMore }) => {
                 >
                     {checkStatus(registrationDeadline)}
                 </button>
+                <Link to={`dashboard/session-details-card/${_id}`}>
                 <button
                     className="w-full py-2 px-4 mt-3 border border-blue-500 text-blue-500 hover:bg-blue-100 transition-all duration-300 rounded-md"
-                    onClick={() => onReadMore(session)}
                 >
                     Read More
                 </button>
+                </Link>
             </div>
         </div>
     );
@@ -49,7 +51,7 @@ const StudySessions = () => {
     const [sessions, setSessions] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch sessions from backend API
+  
     useEffect(() => {
         const fetchSessions = async () => {
             try {

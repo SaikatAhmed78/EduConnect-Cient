@@ -15,6 +15,7 @@ const ViewAllStudySessionA = () => {
   const [updateStatus, setUpdateStatus] = useState('pending');
   const navigate = useNavigate();
 
+
   const axiosUser = useAxiosUser();
 
   const { setSessionId } = useAuth();
@@ -67,31 +68,48 @@ const ViewAllStudySessionA = () => {
       setShowModal(false);
   
       if (paymentStatus === "paid") {
-
-        navigate("/dashboard/payment", { replace: true });
-      } else {
+        const uploadPaidData = async () => {
+          try {
+            const res = await axiosUser.patch(`/paid-approved/${sessionId}?addFee=${fee}`);
+            const data = res.data;
   
+            if (data.modifiedCount > 0) {
+              Swal.fire({
+                icon: "success",
+                title: "Paid Session Approved",
+                text: `The session with ID ${sessionId} has been successfully approved.`,
+              });
+              refetch(); // Optional for UI update
+            }
+          } catch (error) {
+            console.error("Error uploading paid data", error);
+          }
+        };
+        uploadPaidData();
+      } else {
         const res = await axiosUser.patch(`/sessions/${sessionId}/free-approved`);
         const data = res?.data;
   
         if (data?.modifiedCount > 0) {
-         
           refetch();
-  
-      
-          Swal.fire("Approved!", "The session has been approved successfully.", "success");
+          Swal.fire({
+            icon: "success",
+            title: "Approved!",
+            text: "The session has been approved successfully.",
+          });
         } else {
-          
-          Swal.fire("Error", "Failed to approve the session. Please try again.", "error");
+          Swal.fire({
+            icon: "error",
+            title: "Approval Failed",
+            text: "Failed to approve the session. Please try again.",
+          });
         }
       }
     } catch (error) {
-      console.error("Error approving session", error);
-  
-      
-      Swal.fire("Error", "Something went wrong. Please try again later.", "error");
+      console.error("Error approving session:", error);
     }
   };
+  
 
   const handleUpdate = (session) => {
     setSelectedSession(session);
@@ -103,8 +121,8 @@ const ViewAllStudySessionA = () => {
     try {
         const res = await axiosUser.patch(`/sessionsU/${selectedSession._id}/update-drop`);
         const data = res?.data;
-
-        if (data?.message === 'Session status updated successfully') {
+    
+        if (data?.modifiedCount > 0) {
             refetch();
             Swal.fire("Updated!", "Session status updated successfully.", "success");
         } else {
@@ -177,24 +195,25 @@ const handleDelete = async (sessionId) => {
               </p>
 
               {session.status === "pending" ? (
-                <div className="flex gap-1 justify-between">
-                  <button
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                    onClick={() => {
-                      setShowModal(true);
-                      setSelectedSession(session);
-                      setSessionId(session._id)
-                    }}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                    onClick={() => handleReject(session._id)}
-                  >
-                    Reject
-                  </button>
-                </div>
+               <div className="flex justify-between items-center gap-3">
+               <button
+                 className="bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold px-5 py-2 rounded shadow hover:shadow-lg transition transform hover:scale-105"
+                 onClick={() => {
+                   setShowModal(true);
+                   setSelectedSession(session);
+                   setSessionId(session._id);
+                 }}
+               >
+                 Approve
+               </button>
+               <button
+                 className="bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-5 py-2 rounded shadow hover:shadow-lg transition transform hover:scale-105"
+                 onClick={() => handleReject(session._id)}
+               >
+                 Reject
+               </button>
+             </div>
+             
               ) : session.status === 'rejected' || session.status === 'approved' ? (
                 <div className="flex gap-1 justify-between">
                   
@@ -218,53 +237,53 @@ const handleDelete = async (sessionId) => {
       )}
 
 
-      {showModal && selectedSession && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h4 className="text-lg font-semibold mb-4">
-              Approve Session: {selectedSession.title}
-            </h4>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Is the session free or paid?</label>
-              <select
-                className="w-full border-gray-300 rounded px-3 py-2"
-                onChange={(e) => handlePaymentRoute(e.target.value)}
-              >
-                <option value="free">Free</option>
-                <option value="paid">Paid</option>
-              </select>
-            </div>
-
-            {isPaid && (
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Fee</label>
-                <input
-                  type="number"
-                  value={fee}
-                  onChange={(e) => setFee(e.target.value)}
-                  className="w-full border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-            )}
-
-            <div className="flex justify-end gap-2">
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                onClick={() => handleApprove(selectedSession._id)}
-              >
-                Approve
-              </button>
-              <button
-                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+     {showModal && selectedSession && (
+  <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center">
+    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+      <h4 className="text-xl font-bold mb-4 text-center text-gray-800">
+        Approve Session: <span className="text-blue-600">{selectedSession.title}</span>
+      </h4>
+      <div className="space-y-4">
+        <div>
+          <label className="text-gray-700 font-medium mb-1">Session Type</label>
+          <select
+            className="block w-full border border-gray-300 rounded px-3 py-2 focus:ring focus:ring-blue-300"
+            onChange={(e) => handlePaymentRoute(e.target.value)}
+          >
+            <option value="free">Free</option>
+            <option value="paid">Paid</option>
+          </select>
         </div>
-      )}
+        {isPaid && (
+          <div>
+            <label className="text-gray-700 font-medium mb-1">Fee</label>
+            <input
+              type="number"
+              value={fee}
+              onChange={(e) => setFee(e.target.value)}
+              className="block w-full border border-gray-300 rounded px-3 py-2 focus:ring focus:ring-blue-300"
+            />
+          </div>
+        )}
+        <div className="flex justify-end gap-3">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+            onClick={() => handleApprove(selectedSession._id)}
+          >
+            Approve
+          </button>
+          <button
+            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition"
+            onClick={() => setShowModal(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
 {showUpdateModal && selectedSession && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
