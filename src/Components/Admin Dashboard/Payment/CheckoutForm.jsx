@@ -2,6 +2,9 @@ import { useElements, useStripe, CardElement } from '@stripe/react-stripe-js';
 import React, { useState, useEffect } from 'react';
 import useAxiosUser from '../../../Hooks/useAxiosUser';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import useAuth from '../../../Hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -9,12 +12,15 @@ const CheckoutForm = () => {
     const [sessionAmount, setSessionAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
 
+    const {user, sessionId} = useAuth();
+    const navigate = useNavigate();
+
     const stripe = useStripe();
     const elements = useElements();
 
     const axiosUser = useAxiosUser();
 
-    // Fetch the client secret from backend when component mounts
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -32,7 +38,7 @@ const CheckoutForm = () => {
         }
     }, [sessionAmount, axiosUser]);
 
-    // Handle payment confirmation
+  
     const handleConfirmPayment = async (e) => {
         e.preventDefault();
 
@@ -55,7 +61,7 @@ const CheckoutForm = () => {
         if (error) {
             setErrorMessage(error.message);
         } else {
-            // Confirm payment with clientSecret and paymentMethod
+            
             const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: paymentMethod.id,
             });
@@ -64,7 +70,26 @@ const CheckoutForm = () => {
                 setErrorMessage(confirmError.message);
             } else if (paymentIntent.status === 'succeeded') {
                 setErrorMessage('');
-                alert('Payment successful!');
+                Swal.fire({
+                    title: "Congratulations 🎉",
+                    text: `Payment succesfull`,
+                    icon: "success"
+                });
+
+              
+
+                const postPaymentInfo = async() => {
+                    try{
+                        const res = await axiosUser.patch(`/sessions/${sessionId}/payment-approved`);
+                        const data = await res?.data;
+                        console.log('Payment info set to the db:', data);
+                        navigate('/dashboard/view-all-study-sessionA')
+                    }catch(err){
+                        console.error(err);
+                    }
+                };
+                postPaymentInfo();
+                
                 
             }
         }
@@ -94,9 +119,7 @@ const CheckoutForm = () => {
             {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
 
             <div className="flex justify-between items-center">
-                <button type="button" className="bg-gray-300 text-gray-700 px-5 py-3 rounded-lg font-medium hover:bg-gray-400 shadow-md">
-                    Cancel
-                </button>
+                
                 <button
                     type="submit"
                     onClick={handleConfirmPayment}

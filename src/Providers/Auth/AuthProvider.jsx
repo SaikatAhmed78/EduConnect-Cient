@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
     // State
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [sessionId, setSessionId] = useState('');
 
 
 
@@ -68,7 +69,10 @@ const AuthProvider = ({ children }) => {
         signInWithGoogle,
         signInWithGithub,
         logOut,
-        updateUserProfile
+        updateUserProfile,
+        sessionId,
+        setSessionId
+
     };
 
     return (

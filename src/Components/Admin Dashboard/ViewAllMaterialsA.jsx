@@ -25,10 +25,10 @@ const ViewAllMaterialsA = () => {
     // Mutation to delete a material
     const { mutate: deleteMaterial } = useMutation({
         mutationFn: async (id) => {
-            await axios.delete(`/materials/${id}`);
+            await axiosUser.delete(`/materials/${id}`);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['materials']);  // Re-fetch materials after deletion
+            queryClient.invalidateQueries(['materials']);  
         },
     });
 

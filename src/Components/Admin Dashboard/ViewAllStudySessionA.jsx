@@ -3,16 +3,21 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosUser from "../../Hooks/useAxiosUser";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";  // Import SweetAlert2
+import useAuth from "../../Hooks/useAuth";
 
 const ViewAllStudySessionA = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedSession, setSelectedSession] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const [fee, setFee] = useState(0);
   const [paymentStatus, setPaymentStatus] = useState('');
+  const [updateStatus, setUpdateStatus] = useState('pending');
   const navigate = useNavigate();
 
   const axiosUser = useAxiosUser();
+
+  const { setSessionId } = useAuth();
 
   const { data: fetchedSessions = [], isLoading, refetch } = useQuery({
     queryKey: ["sessions"],
@@ -40,10 +45,10 @@ const ViewAllStudySessionA = () => {
       });
 
       if (result.isConfirmed) {
-       
+
         await axiosUser.patch(`/sessions/${sessionId}/reject`);
 
-     
+
         refetch();
 
         setShowModal(false);
@@ -54,19 +59,96 @@ const ViewAllStudySessionA = () => {
     }
   };
 
+
+  
+
   const handleApprove = async (sessionId) => {
     try {
-      if (paymentStatus === 'paid') {
-        navigate('/dashboard/payment', { replace: true });
-      } else {
-        alert("Please mark the session as paid to proceed.");
-      }
       setShowModal(false);
+  
+      if (paymentStatus === "paid") {
+
+        navigate("/dashboard/payment", { replace: true });
+      } else {
+  
+        const res = await axiosUser.patch(`/sessions/${sessionId}/free-approved`);
+        const data = res?.data;
+  
+        if (data?.modifiedCount > 0) {
+         
+          refetch();
+  
+      
+          Swal.fire("Approved!", "The session has been approved successfully.", "success");
+        } else {
+          
+          Swal.fire("Error", "Failed to approve the session. Please try again.", "error");
+        }
+      }
     } catch (error) {
       console.error("Error approving session", error);
+  
+      
+      Swal.fire("Error", "Something went wrong. Please try again later.", "error");
     }
   };
 
+  const handleUpdate = (session) => {
+    setSelectedSession(session);
+    setUpdateStatus(session.status); 
+    setShowUpdateModal(true);
+  };
+
+  const handleStatusUpdate = async () => {
+    try {
+        const res = await axiosUser.patch(`/sessionsU/${selectedSession._id}/update-drop`);
+        const data = res?.data;
+
+        if (data?.message === 'Session status updated successfully') {
+            refetch();
+            Swal.fire("Updated!", "Session status updated successfully.", "success");
+        } else {
+            Swal.fire("Error", data?.message || "Failed to update the session status.", "error");
+        }
+    } catch (error) {
+        console.error("Error updating session status", error);
+        Swal.fire("Error", "Something went wrong. Please try again later.", "error");
+    } finally {
+        setShowUpdateModal(false);
+    }
+};
+
+
+const handleDelete = async (sessionId) => {
+  try {
+      const result = await Swal.fire({
+          title: "Are you sure?",
+          text: "Do you want to delete this session?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel!",
+      });
+
+      if (result.isConfirmed) {
+          const res = await axiosUser.delete(`/sessionsD/${sessionId}`);
+          const data = res?.data;
+
+          if (res.status === 200) {
+              refetch();
+              Swal.fire("Deleted!", "Session deleted successfully.", "success");
+          } else {
+              Swal.fire("Error", data?.message || "Failed to delete the session.", "error");
+          }
+      }
+  } catch (error) {
+      console.error("Error deleting session", error);
+      Swal.fire("Error", "Something went wrong. Please try again later.", "error");
+  }
+};
+
+
+  
   const handlePaymentRoute = (e) => {
     setPaymentStatus(e);
     if (e === 'paid') {
@@ -95,12 +177,13 @@ const ViewAllStudySessionA = () => {
               </p>
 
               {session.status === "pending" ? (
-                <div className="flex gap-2">
+                <div className="flex gap-1 justify-between">
                   <button
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                     onClick={() => {
                       setShowModal(true);
                       setSelectedSession(session);
+                      setSessionId(session._id)
                     }}
                   >
                     Approve
@@ -111,6 +194,20 @@ const ViewAllStudySessionA = () => {
                   >
                     Reject
                   </button>
+                </div>
+              ) : session.status === 'rejected' || session.status === 'approved' ? (
+                <div className="flex gap-1 justify-between">
+                  
+                  <button 
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                    onClick={() => handleUpdate(session)}
+                  >
+                    Update
+                  </button>
+
+                  <button 
+                  onClick={() => handleDelete(session._id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
                 </div>
               ) : (
                 <p className="text-sm text-gray-500">This session is {session.status}.</p>
@@ -168,8 +265,42 @@ const ViewAllStudySessionA = () => {
           </div>
         </div>
       )}
+
+{showUpdateModal && selectedSession && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h4 className="text-lg font-semibold mb-4">Update Session Status: {selectedSession.title}</h4>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2">Session Status</label>
+              <select
+                className="w-full border-gray-300 rounded px-3 py-2"
+                value={updateStatus}
+                onChange={(e) => setUpdateStatus(e.target.value)}
+              >
+                <option value="pending">Pending</option>
+        
+              </select>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                onClick={handleStatusUpdate}
+              >
+                Update
+              </button>
+              <button
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                onClick={() => setShowUpdateModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default ViewAllStudySessionA;
+

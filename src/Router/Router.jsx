@@ -20,6 +20,7 @@ import ViewAllStudySessionA from "../Components/Admin Dashboard/ViewAllStudySess
 import ViewAllMaterials from "../Components/Tutor Dashboard/ViewAllMeterials";
 import ViewAllMaterialsA from "../Components/Admin Dashboard/ViewAllMaterialsA";
 import Payment from "../Components/Admin Dashboard/Payment/Payment";
+import SessionDetail from "../Components/Student Dashboard/SessionDetail/SessionDetail";
 
 const router = createBrowserRouter([
     {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
             {
                 path: 'view-booked-session',
                 element: <ViewBookedSessions></ViewBookedSessions>
+            },
+            {
+                path: 'session/:id',
+                element: <SessionDetail></SessionDetail>
             },
             {
                 path: 'view-study-meterials',
