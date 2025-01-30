@@ -4,6 +4,7 @@ import useAxiosUser from "../../../Hooks/useAxiosUser";
 import { useQuery } from "@tanstack/react-query"; 
 import { useNavigate, useParams } from "react-router-dom"; 
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../../Common/Spinner/LoadingSpinner";
 
 const SessionDetailsCard = () => { 
   const axiosUser = useAxiosUser(); 
@@ -11,7 +12,6 @@ const SessionDetailsCard = () => {
   const [reviews, setReviews] = useState([]);
   const { id: sessionId } = useParams();
   const navigate = useNavigate();
-  console.log(session)
 
 
  
@@ -21,8 +21,10 @@ const SessionDetailsCard = () => {
       const res = await axiosUser.get(`/sessions/${sessionId}`);
       return res.data;
     },
-    enabled: !!sessionId,
+
   });
+
+  
   
   useEffect(() => {
     if (data) {
@@ -31,7 +33,6 @@ const SessionDetailsCard = () => {
     }
   }, [data]);
 
-  // Refetch data when sessionId changes
   useEffect(() => {
     if (sessionId) {
       refetch();
@@ -56,7 +57,6 @@ const SessionDetailsCard = () => {
     try{
         const res = await axiosUser.post(`/postData/${sessionId}`)
         const data = await res.data;
-        console.log(data)
 
         if(data.insertedId){
             Swal.fire({
@@ -74,7 +74,7 @@ const SessionDetailsCard = () => {
   };
 
 
-  if (isLoading) return <div className="text-center text-gray-700">Loading session details...</div>;
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>
   if (isError) return <div className="text-center text-red-600">Error: {error.message}</div>;
 
   return (

@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosUser from '../../Hooks/useAxiosUser';
 import LoadingSpinner from '../../Common/Spinner/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
 const ViewBookedSessions = () => {
   const axiosUser = useAxiosUser();
@@ -46,9 +47,12 @@ const ViewBookedSessions = () => {
                 <p className="text-sm text-gray-400 mt-2">Date: {session.date}</p>
                 <p className="mt-4 text-gray-300">{session.description}</p>
                 <div className="mt-4">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-all duration-300">
+                 
+                 <Link to={`/dashboard/session/${session._id}`}>
+                 <button className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-all duration-300">
                     View Details
                   </button>
+                 </Link>
                 </div>
               </div>
             ))}

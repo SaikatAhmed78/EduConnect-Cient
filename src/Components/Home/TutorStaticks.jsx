@@ -1,106 +1,74 @@
 import React from "react";
-
-const tutors = [
-    {
-        id: 1,
-        name: "John Doe",
-        specialization: "Mathematics",
-        rating: 4.8,
-        photo: "https://img.freepik.com/free-photo/teacher-smart-instructor-grey-suit-classroom-with-computer-whiteboard-explaining-lecture_140725-163299.jpg?semt=ais_hybrid",
-        description: "John is a seasoned mathematician with over 10 years of teaching experience, helping students excel in complex calculations and problem-solving techniques."
-    },
-    {
-        id: 2,
-        name: "Jane Smith",
-        specialization: "Physics",
-        rating: 4.6,
-        photo: "https://img.freepik.com/free-photo/smiling-showing-one-male-teacher-wearing-glasses-holding-number-fans-sitting-table-with-school-tools-classroom_141793-114349.jpg?semt=ais_hybrid",
-        description: "Jane specializes in making physics concepts easy to understand, with a focus on practical applications and innovative teaching methods."
-    },
-    {
-        id: 3,
-        name: "Emily Johnson",
-        specialization: "Chemistry",
-        rating: 4.9,
-        photo: "https://img.freepik.com/free-photo/teacher-brunette-instructor-with-computer-suit-whiteboard-classroom-pointing-board_140725-163269.jpg?semt=ais_hybrid",
-        description: "Emily has a knack for breaking down complex chemical equations and theories, making learning enjoyable for her students."
-    },
-    {
-        id: 4,
-        name: "Michael Brown",
-        specialization: "Biology",
-        rating: 4.7,
-        photo: "https://img.freepik.com/free-photo/smiley-businessman-presenting-whiteboard_23-2147643105.jpg?semt=ais_hybrid",
-        description: "Michael's engaging teaching style brings the wonders of biology to life, from cell structures to ecosystems."
-    },
-    {
-        id: 5,
-        name: "Sophia Williams",
-        specialization: "English Literature",
-        rating: 4.9,
-        photo: "https://img.freepik.com/free-photo/young-mother-working-from-home-with-daughter_329181-18974.jpg?semt=ais_hybrid",
-        description: "Sophia is passionate about literature, guiding students through classic and modern works with insightful analysis and discussions."
-    },
-    {
-        id: 6,
-        name: "David Miller",
-        specialization: "History",
-        rating: 4.8,
-        photo: "https://img.freepik.com/premium-photo/student-teacher-class_265223-88329.jpg?semt=ais_hybrid",
-        description: "David brings history to life with vivid storytelling, connecting past events to present-day relevance and lessons."
-    }
-];
+import { useQuery } from "@tanstack/react-query";
+import useAxiosUser from "../../Hooks/useAxiosUser";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { FaUserTie } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const TutorStaticks = () => {
+    const axiosUser = useAxiosUser();
+
+    const { data: users = [], isPending, error, refetch } = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const res = await axiosUser.get('/information');
+            return res.data;
+        }
+    });
+
+    if (isPending) {
+        return <p className="text-center text-gray-500 text-xl">Loading tutor information...</p>;
+    }
+
+    if (error) {
+        return <p className="text-center text-red-500 text-xl">Failed to load tutor data. Please try again.</p>;
+    }
+
     return (
-        <section className="py-10 px-4">
+        <section className="py-10 px-4 mt-12 mb-10">
             <div className="w-11/12 mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
-                    Meet Our Expert Tutors
+                    Tutor Information
                 </h2>
                 <p className="text-center text-gray-600 mb-10">
-                    Learn from the best tutors in the industry. Our experts are here to
-                    guide you every step of the way.
+                    Meet our dedicated tutors who are ready to help you learn and grow.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {tutors.map((tutor) => (
-                        <div
-                            key={tutor.id}
-                            className="group [perspective:1000px] w-full h-[400px]"
-                        >
-                            <div
-                                className="relative w-full h-full transition-transform duration-[600ms] [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
-                            >
+                    {users.map((user) => (
+                        <div key={user._id} className="w-full rounded-md relative group overflow-hidden">
+                            {/* Image */}
+                            {user.photo && (
+                                <img
+                                    src={user.photo}
+                                    alt={user.name}
+                                    className="w-full h-[350px] object-cover"
+                                />
+                            )}
 
-                                <div className="absolute w-full h-full backface-hidden [backface-visibility:hidden]">
-                                    <img
-                                        src={tutor.photo}
-                                        alt={tutor.name}
-                                        className="w-full h-full cursor-pointer object-cover rounded-lg shadow-lg"
-                                    />
-                                    <h3 className="absolute bottom-4 left-4 text-white text-xl font-bold [text-shadow:2px_2px_4px_rgba(0,0,0,0.9)]">
-                                        {tutor.name}
-                                    </h3>
+                            {/* User Info */}
+                            <div className="flex flex-col items-center justify-center backdrop-blur-sm text-white absolute bottom-0 w-full pt-[15px] pb-[30px] translate-y-[200px] group-hover:translate-y-0 transition-all duration-[400ms] overflow-hidden">
+                                <h3 className="text-[1.7rem] translate-y-[-50px] group-hover:translate-y-0 transition-all duration-700 font-bold tracking-[5px] leading-[30px] opacity-0 group-hover:opacity-100">
+                                    {user.name}
+                                </h3>
+                                <div className="flex items-center gap-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                                    <MdEmail className="text-xl text-white" />
+                                    <p className="text-[1rem]">{user.email}</p>
+                                </div>
+                                <div className="flex items-center gap-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                                    <FaUserTie className="text-xl text-white" />
+                                    <p className="text-[1rem]">Role: {user.role}</p>
+                                </div>
+                                <div className="flex items-center gap-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                                    <FaChalkboardTeacher className="text-xl text-white" />
+                                    <p className="text-[1rem]">Experienced Tutor</p>
                                 </div>
 
-
-                                <div
-                                    className="absolute w-full h-full bg-white rounded-lg shadow-lg [transform:rotateY(180deg)] [backface-visibility:hidden] p-6"
-                                >
-                                    <h3 className="text-xl font-bold text-gray-800">
-                                        {tutor.name}
-                                    </h3>
-                                    <p className="text-gray-600 mb-2">{tutor.specialization}</p>
-                                    <p className="text-gray-700 text-sm mb-4">{tutor.description}</p>
-                                    <div className="flex items-center">
-                                        <span className="text-yellow-500 text-lg mr-2">★</span>
-                                        <p className="text-gray-700 font-semibold">
-                                            {tutor.rating.toFixed(1)} / 5
-                                        </p>
-                                    </div>
-                                    <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                                        Contact
-                                    </button>
+                                {/* Social Media Icons */}
+                                <div className="flex gap-4 mt-4 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                                    <FaFacebook className="text-3xl text-blue-600 hover:text-blue-800" />
+                                    <FaInstagram className="text-3xl text-pink-600 hover:text-pink-800" />
+                                    <FaTwitter className="text-3xl text-blue-400 hover:text-blue-600" />
                                 </div>
                             </div>
                         </div>

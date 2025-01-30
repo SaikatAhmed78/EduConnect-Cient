@@ -18,7 +18,7 @@ const studentMenuItems = [
     { to: "/dashboard/view-booked-session", label: "View Booked Sessions", icon: <FaCalendarAlt /> },
     { to: "/dashboard/create-note", label: "Create Note", icon: <FaPlus /> },
     { to: "/dashboard/manage-notes", label: "Manage Personal Notes", icon: <FaEdit /> },
-    { to: "/dashboard/view-study-materials", label: "View Study Materials", icon: <FaCalendarAlt /> },
+    { to: "/dashboard/view-study-meterials", label: "View Study Materials", icon: <FaCalendarAlt /> },
 ];
 
 const adminMenuItems = [

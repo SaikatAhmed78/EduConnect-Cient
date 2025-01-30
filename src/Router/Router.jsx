@@ -22,6 +22,7 @@ import ViewAllMaterialsA from "../Components/Admin Dashboard/ViewAllMaterialsA";
 import Payment from "../Components/Admin Dashboard/Payment/Payment";
 import SessionDetail from "../Components/Student Dashboard/SessionDetail/SessionDetail";
 import SessionDetailsCard from "../Components/Student Dashboard/Session Details Card/SessionDetailsCard";
+import AllSessionsP from "../Components/Student Dashboard/all session page/AllSessionsP";
 
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login></Login>
+            },
+            {
+                path: 'all-sessionP',
+                element: <AllSessionsP></AllSessionsP>
             },
             {
                 path: '/aboutUs',

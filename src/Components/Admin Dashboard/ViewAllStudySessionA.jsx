@@ -24,7 +24,8 @@ const ViewAllStudySessionA = () => {
     queryKey: ["sessions"],
     queryFn: async () => {
       try {
-        const res = await axiosUser.get("/sessions");
+        const res = await axiosUser.get("/all-sessions-tutor");
+        console.log(res.data)
         return res.data;
       } catch (error) {
         console.error(error);
@@ -184,7 +185,7 @@ const handleDelete = async (sessionId) => {
         <p className="text-center text-gray-500">Loading sessions...</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {fetchedSessions.map((session) => (
+          {fetchedSessions.sessions.map((session) => (
             <div key={session._id} className="bg-white shadow-lg rounded-lg p-4 border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
                 {session.title}

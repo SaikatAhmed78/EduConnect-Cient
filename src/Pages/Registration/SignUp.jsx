@@ -21,6 +21,7 @@ const SignUp = () => {
 
 
     const onSubmit = (data) => {
+    
         createNewUser(data.email, data.password)
             .then(result => {
 
@@ -31,7 +32,7 @@ const SignUp = () => {
                             name: data.name,
                             email: data.email,
                             role: data.role,
-                            photo: data.phtoURL
+                            photo: data.photo
                         };
 
                         axiosUser.post('/signup', userInfo)
@@ -104,7 +105,7 @@ const SignUp = () => {
                         )}
                     </div>
 
-                    {/* photo */}
+                 
                     <div>
                         <label className="flex items-center mb-1 text-gray-600">
                             <FaCamera className="mr-2" /> Photo URL
@@ -117,7 +118,6 @@ const SignUp = () => {
                         />
                     </div>
 
-                    {/* Password  */}
                     <div>
                         <label className="flex items-center mb-1 text-gray-600">
                             <FaLock className="mr-2" /> Password

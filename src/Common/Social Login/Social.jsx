@@ -40,7 +40,7 @@ const Social = () => {
                                 title: 'User already exists!',
                                 text: 'Welcome back!',
                             }).then(() => {
-                                navigate("/");  // Redirect to home page
+                                navigate("/");  
                             });
                         }
                     })
