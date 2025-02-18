@@ -12,7 +12,7 @@ const useTutorRole = () => {
         queryKey: ['isTutor', axiosUser, user?.email],
         queryFn: async () => {
             if (user) {
-                const res = await axiosUser.get(`/users/tutor/${user?.email}`);
+                const res = await axiosUser.get(`/users/tutor/${user?.email}?email=${user.email}`);
                 const data = await res?.data;
                
                 if (data) {

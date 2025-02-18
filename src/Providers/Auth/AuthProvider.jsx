@@ -1,6 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import auth from '../../Firebase/firebase.init';
+import useAxiosUser from '../../Hooks/useAxiosUser';
+
+
 
 
 export const AuthContext = createContext(null);
@@ -14,6 +17,8 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [sessionId, setSessionId] = useState('');
+
+    const axiosUser = useAxiosUser();
 
 
 
@@ -52,9 +57,34 @@ const AuthProvider = ({ children }) => {
 
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+        const unsubscribe = onAuthStateChanged(auth, async currentUser => {
+            console.log("currenst user:", currentUser)
             setUser(currentUser);
-            setLoading(false);
+
+            if(currentUser){
+                const userInfo = {
+                    email: currentUser?.email
+                }
+
+                try{
+                    
+                    const res = await axiosUser.post('/create-token', userInfo);
+                    const data = await res.data;
+                    console.log(data)
+                    setLoading(false);
+                }
+                catch(error){console.error(error)}
+            }
+            else{
+                
+                try{
+                    const res = await axiosUser.post('/logout');
+                    const data = await res.data;
+                    console.log(data)
+                    setLoading(false);  
+                }
+                catch(error){console.error(error)}
+            }
         });
 
         return unsubscribe;

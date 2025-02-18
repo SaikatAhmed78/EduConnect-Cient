@@ -11,7 +11,7 @@ const useAdminRole = () => {
         queryKey: ['isAdmin', axiosUser, user?.email],
         queryFn: async () => {
             if (user) {
-                const res = await axiosUser.get(`/users/admin/${user?.email}`);
+                const res = await axiosUser.get(`/users/admin/${user?.email}?email=${user.email}`);
                 const data = await res?.data;
                
                 if (data) {

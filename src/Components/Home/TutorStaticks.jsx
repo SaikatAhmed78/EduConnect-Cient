@@ -26,7 +26,7 @@ const TutorStaticks = () => {
     }
 
     return (
-        <section className="py-10 px-4 mt-12 mb-10">
+        <section className="py-10 px-4 mt-10">
             <div className="w-11/12 mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
                     Tutor Information

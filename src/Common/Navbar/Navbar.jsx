@@ -47,6 +47,7 @@ const Navbar = () => {
                 <ul className="menu menu-horizontal space-x-4">
                     <li><Link to="/" className="hover:text-yellow-400">Home</Link></li>
                     <li><Link to="/aboutUs" className="hover:text-yellow-400">About Us</Link></li>
+                    <li><Link to="/all-sessionP" className="hover:text-yellow-400">All Study Session</Link></li>
                     {user && <li><Link to="/dashboard" className="hover:text-yellow-400">Dashboard</Link></li>}
                 </ul>
             </div>
