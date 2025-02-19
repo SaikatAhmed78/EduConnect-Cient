@@ -7,6 +7,7 @@ import img2 from '../../assets/banner/freepik__the-style-is-candid-image-photogr
 import img3 from '../../assets/banner/freepik__the-style-is-candid-image-photography-with-natural__3485.jpeg';
 import img4 from '../../assets/banner/learning-education-ideas-insight-intelligence-study-concept.jpg';
 import img5 from '../../assets/banner/still-life-books-versus-technology.jpg';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
     return (
@@ -41,9 +42,11 @@ const Banner = () => {
                                 {index === 3 && "Exploring new learning frontiers together"}
                                 {index === 4 && "Unlocking new possibilities for your future"}
                             </p>
-                            <button className="mt-6 bg-cyan-500 text-white px-6 py-3 rounded-full text-lg font-semibold shadow-md hover:bg-cyan-600 transition-colors">
+                           <Link to="/aboutUs">
+                           <button className="mt-6 bg-cyan-500 text-white px-6 py-3 rounded-full text-lg font-semibold shadow-md hover:bg-cyan-600 transition-colors">
                                 Learn More
                             </button>
+                           </Link>
                         </div>
                     </div>
                 ))}

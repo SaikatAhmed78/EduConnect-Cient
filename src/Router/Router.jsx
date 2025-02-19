@@ -24,6 +24,7 @@ import SessionDetail from "../Components/Student Dashboard/SessionDetail/Session
 import SessionDetailsCard from "../Components/Student Dashboard/Session Details Card/SessionDetailsCard";
 import AllSessionsP from "../Components/Student Dashboard/all session page/AllSessionsP";
 import DashboardHomeS from "../Update/DashboardHomeS";
+import StudentDashboardDA from "../Update/StudentDashboardDA";
 
 
 const router = createBrowserRouter([
@@ -66,8 +67,8 @@ const router = createBrowserRouter([
 
             // student
             {
-                path: '',
-                element: <DashboardHomeS></DashboardHomeS>
+                path: 'studentDS',
+                element: <StudentDashboardDA></StudentDashboardDA>
             },
             {
                 path: 'create-note',
@@ -114,6 +115,11 @@ const router = createBrowserRouter([
             },
 
             // admin
+
+            {
+                path: 'adminDa',
+                element: <DashboardHomeS></DashboardHomeS>
+            },
             {
                 path: 'view-all-users',
                 element: <ViewAllUsers></ViewAllUsers>

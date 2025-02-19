@@ -58,7 +58,6 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async currentUser => {
-            console.log("currenst user:", currentUser)
             setUser(currentUser);
 
             if(currentUser){
@@ -70,7 +69,7 @@ const AuthProvider = ({ children }) => {
                     
                     const res = await axiosUser.post('/create-token', userInfo);
                     const data = await res.data;
-                    console.log(data)
+                   
                     setLoading(false);
                 }
                 catch(error){console.error(error)}
@@ -80,7 +79,7 @@ const AuthProvider = ({ children }) => {
                 try{
                     const res = await axiosUser.post('/logout');
                     const data = await res.data;
-                    console.log(data)
+                   
                     setLoading(false);  
                 }
                 catch(error){console.error(error)}

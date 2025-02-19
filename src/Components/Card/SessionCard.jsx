@@ -7,7 +7,7 @@ import LoadingSpinner from '../../Common/Spinner/LoadingSpinner';
 
 const StudySessions = () => {
     const axiosUser = useAxiosUser();
-    
+
     const { data: sessions = [], isLoading, isError, error } = useQuery({
         queryKey: ['studySessions'],
         queryFn: async () => {
@@ -19,13 +19,15 @@ const StudySessions = () => {
     if (isLoading) return <LoadingSpinner />;
     if (isError) return <p className="text-red-500 text-center">Error: {error.message}</p>;
 
-    // Filter only approved sessions
     const approvedSessions = sessions.filter(session => session.status === 'approved');
 
     return (
-        <div className="w-11/12 mx-auto mt-10 py-12">
-            <h1 className="text-4xl font-semibold text-center text-cyan-500 mb-10">Upcoming Study Sessions</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div className="w-11/12 mx-auto mt-12 px-6">
+            <h1 className="text-4xl font-bold text-center text-cyan-600 mb-12">
+                Upcoming Study Sessions
+            </h1>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {approvedSessions.map(({ _id, title, description, startDate, endDate, image, registrationStartDate, registrationEndDate }) => {
                     const today = dayjs();
                     let status = '';
@@ -43,14 +45,17 @@ const StudySessions = () => {
                     return (
                         <div 
                             key={_id} 
-                            className="w-full sm:w-[80%] md:w-[60%] shadow-md hover:shadow-none z-0 bg-white rounded-md relative cursor-pointer group before:absolute before:top-0 hover:before:top-[10px] before:left-0 hover:before:left-[-10px] before:w-full before:h-full before:rounded-md before:bg-[#c0e6ed] before:transition-all before:duration-300 before:z-[-1] after:w-full after:h-full after:absolute after:top-0 hover:after:top-[20px] after:left-0 hover:after:left-[-20px] after:rounded-md after:bg-[#d4f2f7] after:z-[-2] after:transition-all after:duration-500"
+                            className="group relative bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out"
                         >
-                            <img src={image} alt={title} className="w-full h-[200px] rounded-t-md object-cover" />
-                            <div className="p-4 bg-white rounded-b-md">
-                                <h3 className="text-2xl font-bold text-[#0FABCA]">{title}</h3>
-                                <p className="text-gray-600 mb-2">{description}</p>
+                            <img src={image} alt={title} className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110" />
+                            <div className="p-6">
+                                <h3 className="text-2xl font-semibold text-gray-800 hover:text-cyan-600 transition-colors duration-200">
+                                    {title}
+                                </h3>
+                                <p className="text-gray-500 mt-2 mb-4 text-lg">{description}</p>
+
                                 <button 
-                                    className={`w-full py-2 px-4 rounded-md mt-3 transition-all ${status === 'Ongoing' ? 'bg-[#0FABCA] text-white' : status === 'Upcoming' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`} 
+                                    className={`w-full py-2 px-4 rounded-md mt-3 transition-all ${status === 'Ongoing' ? 'bg-cyan-500 text-white' : status === 'Upcoming' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`} 
                                     disabled={isDisabled}
                                 >
                                     {status}
@@ -66,11 +71,24 @@ const StudySessions = () => {
                 })}
             </div>
 
-            <div className="text-center mt-8">
+            <div className="text-center mt-10">
                 <Link to="/all-sessionP">
-                    <button className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-all">
-                        See All Sessions
-                    </button>
+                <button
+            className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold text-primary transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 group">
+                  <span
+                      className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-primary group-hover:h-full"></span>
+                  <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
+                        <svg className="w-5 h-5 text-green-400" fill="none" stroke="#3B9DF8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                  </span>
+
+                  <span
+                      className="absolute left-0 pl-2.5 -translate-x-12 group-hover:translate-x-0 ease-out duration-200">
+                      <svg className="w-5 h-5 text-green-400" fill="none" stroke="#fff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                  </span>
+
+                  <span
+                      className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white"> See All Sessions</span>
+        </button>
                 </Link>
             </div>
         </div>

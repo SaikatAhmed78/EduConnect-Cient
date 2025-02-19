@@ -3,7 +3,7 @@ import React from "react";
 const AboutUs = () => {
     return (
         <div className="bg-gray-50 text-gray-800">
-            {/* Hero Section */}
+    
             <section className="relative bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20">
                 <div className="container mx-auto px-6 lg:px-20 text-center">
                     <h1 className="text-4xl lg:text-6xl font-bold mb-4">
@@ -15,7 +15,7 @@ const AboutUs = () => {
                 </div>
             </section>
 
-            {/* Mission Section */}
+     
             <section className="py-16">
                 <div className="container mx-auto px-6 lg:px-20">
                     <h2 className="text-3xl lg:text-4xl font-bold text-center mb-8">Our Mission</h2>

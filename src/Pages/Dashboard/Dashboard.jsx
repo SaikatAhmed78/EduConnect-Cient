@@ -14,7 +14,7 @@ const tutorMenuItems = [
 ];
 
 const studentMenuItems = [
-    { to: "/", label: "User Home", icon: <FaHome />, end: true },
+    { to: "/dashboard/studentDS", label: "User Home", icon: <FaHome />, end: true },
     { to: "/dashboard/view-booked-session", label: "View Booked Sessions", icon: <FaCalendarAlt /> },
     { to: "/dashboard/create-note", label: "Create Note", icon: <FaPlus /> },
     { to: "/dashboard/manage-notes", label: "Manage Personal Notes", icon: <FaEdit /> },
@@ -22,7 +22,7 @@ const studentMenuItems = [
 ];
 
 const adminMenuItems = [
-    { to: "/", label: "Admin Dashboard", icon: <FaHome />, end: true },
+    { to: "/dashboard/adminDa", label: "Admin Dashboard", icon: <FaHome />, end: true },
     { to: "/dashboard/view-all-users", label: "View All Users", icon: <FaUserShield /> },
     { to: "/dashboard/view-all-study-sessionA", label: "View All Sessions", icon: <FaEdit /> },
     { to: "/dashboard/view-all-materialsA", label: "View All Materials", icon: <FaCalendarAlt /> },
@@ -68,8 +68,15 @@ const Dashboard = () => {
                         </li>
                     ))}
                 </ul>
+                    <div className='divider'></div>
 
-          
+                    <div className='gap-3'>
+                    <NavLink to="/" className={({ isActive }) =>
+                                    `flex items-center space-x-2 p-2 rounded-md transition-all duration-300 ${isActive ? "bg-white text-indigo-600 shadow" : "text-white hover:bg-indigo-700 hover:bg-opacity-50"}`}>
+                                      <FaHome></FaHome> Home
+
+                    </NavLink>
+                    </div>
                 <div className="absolute bottom-4 left-4">
                     <button onClick={() => setIsDarkMode(!isDarkMode)} className="flex items-center space-x-2 p-2 rounded-md bg-indigo-700 text-white">
                         {isDarkMode ? <FaSun className="w-5 h-5" /> : <FaMoon className="w-5 h-5" />}
