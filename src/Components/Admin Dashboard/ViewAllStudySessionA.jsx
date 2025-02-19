@@ -20,12 +20,26 @@ const ViewAllStudySessionA = () => {
 
   const { setSessionId } = useAuth();
 
+  // const { data: fetchedSessions = [], isLoading, refetch } = useQuery({
+  //   queryKey: ["sessions"],
+  //   queryFn: async () => {
+  //     try {
+  //       const res = await axiosUser.get("/all-sessions-tutor");
+  //       console.log(res.data)
+  //       return res.data;
+  //     } catch (error) {
+  //       console.error(error);
+  //       return [];
+  //     }
+  //   },
+  // });
+
   const { data: fetchedSessions = [], isLoading, refetch } = useQuery({
-    queryKey: ["sessions"],
+    queryKey: ["all-sessions"],
     queryFn: async () => {
       try {
-        const res = await axiosUser.get("/all-sessions-tutor");
-        console.log(res.data)
+        const res = await axiosUser.get("/all-sessions-no-pagination");
+        console.log(res.data);
         return res.data;
       } catch (error) {
         console.error(error);
@@ -33,6 +47,7 @@ const ViewAllStudySessionA = () => {
       }
     },
   });
+  
 
   const handleReject = async (sessionId) => {
     try {
@@ -178,8 +193,8 @@ const handleDelete = async (sessionId) => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-center mb-6">All Study Sessions</h1>
+    <div className="p-6 mx-auto ml-8">
+      <h1 className="text-4xl font-bold text-center text-cyan-500 mb-6">All Study Sessions</h1>
 
       {isLoading ? (
         <p className="text-center text-gray-500">Loading sessions...</p>

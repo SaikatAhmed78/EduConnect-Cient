@@ -8,7 +8,7 @@ const ViewAllMaterialsA = () => {
     const queryClient = useQueryClient();
     const axiosUser = useAxiosUser();
 
-    // Fetch materials using TanStack Query
+   
     const { data: materials = [], isLoading, error } = useQuery({
         queryKey: ['materials'],
         queryFn: async () => {
@@ -22,7 +22,7 @@ const ViewAllMaterialsA = () => {
         },
     });
 
-    // Mutation to delete a material
+  
     const { mutate: deleteMaterial } = useMutation({
         mutationFn: async (id) => {
             await axiosUser.delete(`/materials/${id}`);
@@ -36,7 +36,7 @@ const ViewAllMaterialsA = () => {
     if (error) return <div className="text-red-500 text-center">Error fetching materials</div>;
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto p-6 ml-8">
             <h1 className="text-4xl font-semibold mb-6 text-center text-blue-600">All Materials</h1>
 
             <div className="overflow-x-auto">
