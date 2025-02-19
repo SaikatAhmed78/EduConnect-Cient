@@ -2,9 +2,9 @@ import React from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 
-import img1 from '../../assets/banner/CollaborativeLearning.png';
-import img2 from '../../assets/banner/city-committed-education-collage-concept.jpg';
-import img3 from '../../assets/banner/book-with-green-board-background.jpg';
+import img1 from '../../assets/banner/freepik__the-style-is-candid-image-photography-with-natural__3481.jpeg';
+import img2 from '../../assets/banner/freepik__the-style-is-candid-image-photography-with-natural__3485.jpeg';
+import img3 from '../../assets/banner/freepik__the-style-is-candid-image-photography-with-natural__3484.jpeg';
 
 const Banner = () => {
     return (

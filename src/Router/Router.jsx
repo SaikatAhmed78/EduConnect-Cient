@@ -23,6 +23,7 @@ import Payment from "../Components/Admin Dashboard/Payment/Payment";
 import SessionDetail from "../Components/Student Dashboard/SessionDetail/SessionDetail";
 import SessionDetailsCard from "../Components/Student Dashboard/Session Details Card/SessionDetailsCard";
 import AllSessionsP from "../Components/Student Dashboard/all session page/AllSessionsP";
+import DashboardHomeS from "../Update/DashboardHomeS";
 
 
 const router = createBrowserRouter([
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
         children: [
 
             // student
+            {
+                path: '',
+                element: <DashboardHomeS></DashboardHomeS>
+            },
             {
                 path: 'create-note',
                 element: <CreateNote></CreateNote>

@@ -39,31 +39,26 @@ A platform designed to enhance collaboration among **students**, **tutors**, and
 - Approve or reject **study sessions**.
 - View and manage **study materials**.
 
-## 📋 **Client-Side Features**
-- **Session Cards**: View study session details like description, registration dates, tutor info, and more.
-- **User Role-Based Navbar**: Conditional rendering for logged-in users with profile options and **logout** functionality.
-- **SweetAlert/Toast Notifications**: Notifications for CRUD actions and successful login/signup.
+## 🛠️ **Dependencies**
+- axios
+- framer-motion
+- react-spinners
+- lottie-react
+- sweetalert2
+- react-icons
 
-
+## 🏃‍♂️ **Running the Project Locally**
+1. **Clone the repository:** `git clone <repository-url>`
+2. **Install dependencies:** `npm install`
+3. **Start the development server:** `npm start`
+4. **Open in browser:** Navigate to `http://localhost:3000`
 
 ## 🔒 **Environment Variables**
 - Firebase config and MongoDB credentials are stored securely using environment variables.
 
-
 ## ✉️ **Contact Information**
 For any queries or support, reach us at:  
-- Email: support@collaborativestudy.com  
-- GitHub: [Collaborative Study Platform GitHub](https://github.com/username/repository)
-
-## 📜 **Admin Credentials**
-- **Admin Email**: admin@example.com  
-- **Admin Password**: admin1234
-
-## 📑 **Client-Side Repository**
-[GitHub Repository Link](https://github.com/username/client-side)
-
-## 🚀 **Server-Side Repository**
-[GitHub Repository Link](https://github.com/username/server-side)
+- Email: shaikatahmed78@gmail.com
 
 ---
 
@@ -71,3 +66,4 @@ For any queries or support, reach us at:
 - **React.js** for building the user interface.
 - **Tailwind CSS** for quick and efficient styling.
 - **Tanstack Query** for data fetching and caching.
+

@@ -7,3 +7,11 @@
 body {
   font-family: 'Roboto', serif;
 }
+
+.dark{
+  background-color: black;
+}
+
+.light{
+  background-color: white;
+}

@@ -28,10 +28,10 @@ const TutorStaticks = () => {
     return (
         <section className="py-10 px-4 mt-10">
             <div className="w-11/12 mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
+                <h2 className="text-3xl font-bold text-center mb-6 text-cyan-500">
                     Tutor Information
                 </h2>
-                <p className="text-center text-gray-600 mb-10">
+                <p className="text-center text-teal-400 mb-10">
                     Meet our dedicated tutors who are ready to help you learn and grow.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

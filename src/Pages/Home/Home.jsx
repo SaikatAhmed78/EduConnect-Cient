@@ -6,6 +6,7 @@ import FeaturesSection from '../../Update/FeaturesSection';
 import ReviewsSection from '../../Update/ReviewsSection';
 import FAQSection from '../../Update/FAQSection';
 import StudyTips from '../../Update/StudyTips';
+import NewsletterSubscription from '../../Update/NewsletterSubscription';
 
 
 const Home = () => {
@@ -19,6 +20,7 @@ const Home = () => {
                 <ReviewsSection></ReviewsSection>
                 <StudyTips></StudyTips>
                 <FAQSection></FAQSection>
+                <NewsletterSubscription></NewsletterSubscription>
 
             </div>
         </div>

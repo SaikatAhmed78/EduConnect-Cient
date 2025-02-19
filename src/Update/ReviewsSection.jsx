@@ -55,7 +55,7 @@ const ReviewCard = ({ review }) => {
 const ReviewsSection = () => {
   return (
     <section className="w-11/12 mx-auto mt-10 py-10">
-      <h2 className="text-4xl font-bold text-center mb-10">What Our Users Say</h2>
+      <h2 className="text-4xl font-bold text-center text-cyan-500 mb-10">What Our Users Say</h2>
       <Carousel 
         showArrows={true} 
         autoPlay={true} 

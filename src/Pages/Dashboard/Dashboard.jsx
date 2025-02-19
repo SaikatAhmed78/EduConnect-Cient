@@ -1,9 +1,9 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { FaHome, FaPlus, FaEdit, FaCalendarAlt, FaUsers, FaUserShield } from 'react-icons/fa';
+import { FaHome, FaPlus, FaEdit, FaCalendarAlt, FaUsers, FaUserShield, FaBars, FaMoon, FaSun } from 'react-icons/fa';
 import useAdminRole from '../../Hooks/useAdminRole';
 import useTutorRole from '../../Hooks/useTutorRole';
-
 
 const tutorMenuItems = [
     { to: "/", label: "Home", icon: <FaHome />, end: true },
@@ -29,25 +29,29 @@ const adminMenuItems = [
 ];
 
 const Dashboard = () => {
-    const [isAdmin, isPending] = useAdminRole();
-    const [isTutor,  isTutorPending] = useTutorRole();
-   
+    const [isAdmin] = useAdminRole();
+    const [isTutor] = useTutorRole();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     let menuItems = studentMenuItems;
-
     if (isAdmin) {
         menuItems = adminMenuItems;
     } else if (isTutor) {
         menuItems = tutorMenuItems;
     }
-    else{
-        menuItems= studentMenuItems
-    }
 
     return (
-        <div className="flex h-screen bg-gradient-to-tr from-gray-100 to-gray-300">
-            <aside className="fixed w-64 h-screen bg-gradient-to-b from-blue-500 to-indigo-600 shadow-lg p-6">
-                <h2 className="text-3xl font-extrabold text-white mb-8 text-center">EduConnect Dashboard</h2>
+        <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+           
+            <aside className={`fixed ${isSidebarOpen ? 'w-64' : 'w-20'} h-screen bg-gradient-to-b from-blue-500 to-indigo-600 shadow-lg p-4 transition-all duration-300`}>
+                <div className="flex items-center justify-between mb-8">
+                    <h2 className={`text-3xl font-extrabold text-white ${!isSidebarOpen && 'hidden'}`}>EduConnect</h2>
+                    <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                        <FaBars className="text-white w-6 h-6" />
+                    </button>
+                </div>
+
                 <ul className="space-y-4">
                     {menuItems.map((item, index) => (
                         <li key={index}>
@@ -59,13 +63,23 @@ const Dashboard = () => {
                                 }
                             >
                                 {React.cloneElement(item.icon, { className: "w-5 h-5" })}
-                                <span>{item.label}</span>
+                                {isSidebarOpen && <span>{item.label}</span>}
                             </NavLink>
                         </li>
                     ))}
                 </ul>
+
+          
+                <div className="absolute bottom-4 left-4">
+                    <button onClick={() => setIsDarkMode(!isDarkMode)} className="flex items-center space-x-2 p-2 rounded-md bg-indigo-700 text-white">
+                        {isDarkMode ? <FaSun className="w-5 h-5" /> : <FaMoon className="w-5 h-5" />}
+                        {isSidebarOpen && <span>{isDarkMode ? "Light Mode" : "Dark Mode"}</span>}
+                    </button>
+                </div>
             </aside>
-            <main className="ml-64 flex-1 p-10 bg-white shadow-inner rounded-lg overflow-y-auto">
+
+            
+            <main className={`ml-${isSidebarOpen ? '64' : '20'} flex-1 p-10 bg-white shadow-inner rounded-lg overflow-y-auto transition-all duration-300`}>
                 <Outlet />
             </main>
         </div>
