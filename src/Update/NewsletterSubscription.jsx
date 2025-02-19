@@ -1,23 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FiMail } from 'react-icons/fi'; // Email icon
+import { FaSpinner } from 'react-icons/fa'; // Spinner icon for loading effect
 
 const NewsletterSubscription = () => {
+    const [email, setEmail] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const handleSubscription = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        // Fake delay for demonstration
+        setTimeout(() => {
+            setMessage('Subscription successful! 🎉');
+            setIsLoading(false);
+            setEmail('');
+        }, 2000);
+    };
+
     return (
-        <div className="bg-gray-800 text-white p-10 rounded-lg mt-10 shadow-lg my-10">
-            <h2 className="text-2xl text-cyan-500 font-bold mb-4">Subscribe to Our Newsletter</h2>
-            <p className="mb-6 text-teal-400">Get the latest updates and study tips straight to your inbox!</p>
-            <form className="flex flex-col sm:flex-row gap-4">
-                <input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    className="p-2 rounded-lg w-full sm:w-2/3 text-black"
-                />
-                <button 
-                    type="submit" 
-                    className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg w-full sm:w-1/3"
+        <div className="relative p-10 rounded-2xl shadow-2xl my-10 backdrop-blur-sm bg-opacity-20 border border-gray-700">
+            <h2 className="text-3xl font-extrabold mb-4 text-white">
+                Subscribe to Our Newsletter
+            </h2>
+            <p className="mb-6 text-gray-300">
+                Get the latest updates and study tips straight to your inbox!
+            </p>
+
+            <form onSubmit={handleSubscription} className="flex flex-col sm:flex-row gap-4 items-center">
+                <div className="relative w-full sm:w-2/3">
+                    <FiMail className="absolute left-2 top-3 text-gray-500" size={20} />
+                    <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="pl-10 p-3 rounded-lg w-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        required
+                    />
+                </div>
+
+                <button
+                    type="submit"
+                    className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold p-3 rounded-lg w-full sm:w-1/3 flex items-center justify-center transition duration-300"
+                    disabled={isLoading}
                 >
-                    Subscribe
+                    {isLoading ? (
+                        <FaSpinner className="animate-spin" size={20} />
+                    ) : (
+                        'Subscribe'
+                    )}
                 </button>
             </form>
+
+            {/* Feedback Message */}
+            {message && (
+                <p className="mt-4 text-green-400 font-semibold">{message}</p>
+            )}
         </div>
     );
 };
