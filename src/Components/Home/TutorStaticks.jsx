@@ -13,6 +13,7 @@ const TutorStaticks = () => {
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosUser.get('/information');
+            console.log(res.data)
             return res.data;
         }
     });
