@@ -1,25 +1,23 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosUser from "../../Hooks/useAxiosUser";
-import { FaChalkboardTeacher } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { FaUserTie } from "react-icons/fa";
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaUserTie, FaChalkboardTeacher, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const TutorStaticks = () => {
     const axiosUser = useAxiosUser();
 
-    const { data: users = [], isPending, error, refetch } = useQuery({
+    const { data: users = [], isPending, error } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosUser.get('/information');
-            console.log(res.data)
             return res.data;
         }
     });
 
     if (isPending) {
-        return <p className="text-center text-gray-500 text-xl">Loading tutor information...</p>;
+        return <p className="text-center text-gray-500 text-xl dark:text-gray-300">Loading tutor information...</p>;
     }
 
     if (error) {
@@ -27,52 +25,49 @@ const TutorStaticks = () => {
     }
 
     return (
-        <section className="py-10 px-4 mt-10">
+        <section className="py-12 px-4 mt-10">
             <div className="w-11/12 mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-6 text-cyan-500">
-                    Tutor Information
+                <h2 className="text-4xl font-extrabold text-center mb-4 text-cyan-600 dark:text-cyan-300 tracking-wide">
+                    Meet Our Tutors
                 </h2>
-                <p className="text-center text-teal-400 mb-10">
-                    Meet our dedicated tutors who are ready to help you learn and grow.
+                <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+                    Our professional tutors are here to guide your academic journey and empower your learning.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {users.map((user) => (
-                        <div key={user._id} className="w-full rounded-md relative group overflow-hidden">
-                            {/* Image */}
+
+                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    {users.slice(0, 6).map((user) => (
+                        <motion.div
+                            key={user._id}
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            viewport={{ once: true }}
+                            className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow duration-500"
+                        >
                             {user.photo && (
                                 <img
                                     src={user.photo}
                                     alt={user.name}
-                                    className="w-full h-[350px] object-cover"
+                                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
                             )}
 
-                            {/* User Info */}
-                            <div className="flex flex-col items-center justify-center backdrop-blur-sm text-white absolute bottom-0 w-full pt-[15px] pb-[30px] translate-y-[200px] group-hover:translate-y-0 transition-all duration-[400ms] overflow-hidden">
-                                <h3 className="text-[1.7rem] translate-y-[-50px] group-hover:translate-y-0 transition-all duration-700 font-bold tracking-[5px] leading-[30px] opacity-0 group-hover:opacity-100">
-                                    {user.name}
-                                </h3>
-                                <div className="flex items-center gap-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                                    <MdEmail className="text-xl text-white" />
-                                    <p className="text-[1rem]">{user.email}</p>
-                                </div>
-                                <div className="flex items-center gap-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                                    <FaUserTie className="text-xl text-white" />
-                                    <p className="text-[1rem]">Role: {user.role}</p>
-                                </div>
-                                <div className="flex items-center gap-[8px] mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                                    <FaChalkboardTeacher className="text-xl text-white" />
-                                    <p className="text-[1rem]">Experienced Tutor</p>
-                                </div>
+                            <div className="absolute inset-0 bg-black bg-opacity-40 dark:bg-opacity-60 group-hover:bg-opacity-70 transition-all duration-300 backdrop-blur-0" />
 
-                                {/* Social Media Icons */}
-                                <div className="flex gap-4 mt-4 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                                    <FaFacebook className="text-3xl text-blue-600 hover:text-blue-800" />
-                                    <FaInstagram className="text-3xl text-pink-600 hover:text-pink-800" />
-                                    <FaTwitter className="text-3xl text-blue-400 hover:text-blue-600" />
+                            <div className="absolute bottom-0 p-5 text-white w-full z-10">
+                                <h3 className="text-2xl font-bold mb-1">{user.name}</h3>
+                                <div className="text-sm flex flex-col gap-1">
+                                    <p className="flex items-center gap-2"><MdEmail /> {user.email}</p>
+                                    <p className="flex items-center gap-2"><FaUserTie /> Role: {user.role}</p>
+                                    <p className="flex items-center gap-2"><FaChalkboardTeacher /> Experienced Tutor</p>
+                                </div>
+                                <div className="flex gap-3 mt-3">
+                                    <FaFacebook className="text-xl hover:text-blue-500 transition-colors duration-300" />
+                                    <FaInstagram className="text-xl hover:text-pink-500 transition-colors duration-300" />
+                                    <FaTwitter className="text-xl hover:text-sky-400 transition-colors duration-300" />
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
