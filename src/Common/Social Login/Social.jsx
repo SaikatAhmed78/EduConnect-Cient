@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosUser from "../../Hooks/useAxiosUser";
-import Swal from "sweetalert2";
+import { toast } from "react-hot-toast";
 
 const Social = () => {
-    const { signInWithGoogle, signInWithGithub } = useAuth();
+    const { signInWithGoogle, signInWithFacebook } = useAuth();
     const axiosUser = useAxiosUser();
     const navigate = useNavigate();
 
@@ -16,136 +16,73 @@ const Social = () => {
                     email: result.user.email,
                     name: result.user.displayName,
                 };
-
-                console.log("User Info:", userInfo);
-
-                axiosUser
-                    .post("/signup", userInfo)
-                    .then((response) => {
-
-                        if (response.data.insertedId) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Logged in successfully!',
-                                text: 'Welcome back!',
-                                timer: 2000,
-                                showConfirmButton: false,
-                            }).then(() => {
-                                navigate("/");
-                            });
-                        } else {
-
-                            Swal.fire({
-                                icon: 'info',
-                                title: 'User already exists!',
-                                text: 'Welcome back!',
-                            }).then(() => {
-                                navigate("/");  
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        console.error("Google Sign-In Error:", err);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Something went wrong with Google Sign-In!',
-                        });
-                    });
+                
+                axiosUser.post("/signup", userInfo).then((response) => {
+                    if (response.data.insertedId) {
+                        toast.success("Logged in successfully! Welcome back!");
+                    } else {
+                        toast.info("User already exists! Welcome back!");
+                    }
+                    navigate("/");
+                });
             })
             .catch((err) => {
                 console.error("Google Authentication Error:", err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Authentication Error',
-                    text: 'Google authentication failed!',
-                });
+                toast.error("Google authentication failed!");
             });
     };
 
-
-    const handleGithubSignIn = () => {
-        signInWithGithub()
+    // Handle Facebook Sign-In
+    const handleFacebookSignIn = () => {
+        signInWithFacebook()
             .then((result) => {
                 const userInfo = {
                     email: result.user.email,
                     name: result.user.displayName,
                 };
-
-                console.log("User Info:", userInfo);
-
-
-                axiosUser
-                    .post("/signup", userInfo)
-                    .then((response) => {
-
-                        if (response.data.insertedId) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Logged in successfully!',
-                                text: 'Welcome back!',
-                                timer: 2000,
-                                showConfirmButton: false,
-                            }).then(() => {
-                                navigate("/");
-                            });
-                        } else {
-                            // User already exists logic
-                            Swal.fire({
-                                icon: 'info',
-                                title: 'User already exists!',
-                                text: 'Welcome back!',
-                            }).then(() => {
-                                navigate("/");
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        console.error("GitHub Sign-In Error:", err);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Something went wrong with GitHub Sign-In!',
-                        });
-                    });
+                
+                axiosUser.post("/signup", userInfo).then((response) => {
+                    if (response.data.insertedId) {
+                        toast.success("Logged in successfully! Welcome back!");
+                    } else {
+                        toast.info("User already exists! Welcome back!");
+                    }
+                    navigate("/");
+                });
             })
             .catch((err) => {
-                console.error("GitHub Authentication Error:", err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Authentication Error',
-                    text: 'GitHub authentication failed!',
-                });
+                console.error("Facebook Authentication Error:", err);
+                toast.error("Facebook authentication failed!");
             });
     };
 
     return (
         <div className="flex flex-col items-center gap-4">
-            <div className="flex gap-3">
+            <div className="flex gap-4">
+                {/* Google Sign-In Button */}
                 <button
                     onClick={handleGoogleSignIn}
-                    className="bg-[#3B9DF8] text-white rounded-md py-2 px-4 flex items-center gap-[10px] text-[1rem] hover:bg-blue-500 transition-all duration-200"
-                >
-                    <div className="py-2 px-2.5 rounded-l-md bg-white">
-                        <img
-                            src="https://i.ibb.co/dQMmB8h/download-4-removebg-preview-1.png"
-                            alt="Google logo"
-                            className="w-[23px]"
-                        />
-                    </div>
-                    Sign in with Google
-                </button>
-
-                <button
-                    onClick={handleGithubSignIn}
-                    className="bg-black text-white rounded-md py-2 px-4 flex items-center gap-[10px] text-[1rem] hover:bg-gray-800 transition-all duration-200"
+                    className="bg-[#4285F4] text-white rounded-lg py-3 px-5 flex items-center gap-3 text-lg shadow-md hover:bg-[#357ae8] transition-all duration-200"
                 >
                     <img
-                        src="https://i.ibb.co/w4xtRf9/download-10-removebg-preview.png"
-                        alt="GitHub logo"
-                        className="w-[35px]"
+                        src="https://i.ibb.co/dQMmB8h/download-4-removebg-preview-1.png"
+                        alt="Google logo"
+                        className="w-6"
                     />
-                    Continue with GitHub
+                    Sign in with Google
+                </button>
+                
+                {/* Facebook Sign-In Button */}
+                <button
+                    onClick={handleFacebookSignIn}
+                    className="bg-[#1877F2] text-white rounded-lg py-3 px-5 flex items-center gap-3 text-lg shadow-md hover:bg-[#166fe5] transition-all duration-200"
+                >
+                    <img
+                        src="https://i.ibb.co/ykV1b9V/facebook-icon.png"
+                        alt="Facebook logo"
+                        className="w-6"
+                    />
+                    Continue with Facebook
                 </button>
             </div>
         </div>

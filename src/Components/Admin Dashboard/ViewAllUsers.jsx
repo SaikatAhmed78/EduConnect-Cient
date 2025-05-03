@@ -26,7 +26,6 @@ const ViewAllUsers = () => {
     });
 
     const handleRoleChange = async (userId, newRole) => {
-    
         const result = await Swal.fire({
             title: 'Are you sure?',
             text: `You are about to change the user's role to ${newRole}.`,
@@ -36,13 +35,13 @@ const ViewAllUsers = () => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, update it!',
         });
-    
+
         if (result.isConfirmed) {
             try {
                 const response = await axiosUser.patch(`/users/${userId}`, {
                     role: newRole,
                 });
-    
+
                 if (response.status === 200) {
                     Swal.fire('Success!', 'User role updated successfully.', 'success');
                     refetch();
@@ -53,61 +52,64 @@ const ViewAllUsers = () => {
             }
         }
     };
-    
 
     if (isLoading) {
         return <LoadingSpinner />;
     }
 
     return (
-        <div className="container mx-auto p-4 ml-8">
-            <h2 className="text-2xl font-bold mb-6">All Users</h2>
+        <div className="max-w-7xl mx-auto px-4 py-6">
+            <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">All Users</h2>
 
+            {/* Search Input */}
             <input
                 type="text"
                 placeholder="Search by Name or Email"
-                className="input input-bordered input-primary w-full mb-6"
+                className="input input-bordered input-primary w-full sm:max-w-md mb-4"
                 value={search}
                 onChange={handleSearchChange}
             />
 
-            <table className="table-auto w-full border-collapse border border-gray-200">
-                <thead>
-                    <tr className="bg-gray-100">
-                        <th className="border px-4 py-2">Name</th>
-                        <th className="border px-4 py-2">Email</th>
-                        <th className="border px-4 py-2">Role</th>
-                        <th className="border px-4 py-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((user) => (
-                        <tr key={user._id} className="hover:bg-gray-50">
-                            <td className="border px-4 py-2">{user.name || 'N/A'}</td>
-                            <td className="border px-4 py-2">{user.email}</td>
-                            <td className="border px-4 py-2 text-center">{user.role}</td>
-                            <td className="border px-4 py-2 text-center">
-                                <select
-                                    className="select w-full border"
-                                    value={user.role}
-                                    onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                                >
-                                    <option value={user.role} disabled>
-                                        {user.role}
-                                    </option>
-                                    {['admin', 'tutor', 'student']
-                                        .filter((role) => role !== user.role)
-                                        .map((role) => (
-                                            <option key={role} value={role}>
-                                                {role}
-                                            </option>
-                                        ))}
-                                </select>
-                            </td>
+            {/* Responsive Table */}
+            <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-200 text-sm sm:text-base">
+                    <thead>
+                        <tr className="bg-gray-100 text-left">
+                            <th className="border px-3 py-2">Name</th>
+                            <th className="border px-3 py-2">Email</th>
+                            <th className="border px-3 py-2">Role</th>
+                            <th className="border px-3 py-2">Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {users.map((user) => (
+                            <tr key={user._id} className="hover:bg-gray-50 text-center">
+                                <td className="border px-3 py-2">{user.name || 'N/A'}</td>
+                                <td className="border px-3 py-2">{user.email}</td>
+                                <td className="border px-3 py-2">{user.role}</td>
+                                <td className="border px-3 py-2">
+                                    <select
+                                        className="select w-full border p-1 rounded text-sm sm:text-base"
+                                        value={user.role}
+                                        onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                                    >
+                                        <option value={user.role} disabled>
+                                            {user.role}
+                                        </option>
+                                        {['admin', 'tutor', 'student']
+                                            .filter((role) => role !== user.role)
+                                            .map((role) => (
+                                                <option key={role} value={role}>
+                                                    {role}
+                                                </option>
+                                            ))}
+                                    </select>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

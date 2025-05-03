@@ -9,7 +9,7 @@ const reviewsData = [
     role: 'Student',
     review: 'This platform has transformed my learning experience. The resources and sessions are top-notch!',
     rating: 5,
-    avatar: ''
+    date: 'Feb 10, 2025'
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const reviewsData = [
     role: 'Tutor',
     review: 'Managing sessions has never been easier. I love the performance tracking feature!',
     rating: 4,
-    avatar: 'https://via.placeholder.com/80'
+    date: 'Jan 25, 2025'
   },
   {
     id: 3,
@@ -25,21 +25,20 @@ const reviewsData = [
     role: 'Student',
     review: 'The session booking system is seamless, and the interface is very user-friendly.',
     rating: 5,
-    avatar: 'https://via.placeholder.com/80'
+    date: 'March 5, 2025'
   }
 ];
 
 const ReviewCard = ({ review }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 text-center flex flex-col items-center">
-      <img 
-        src={review.avatar} 
-        alt={review.name} 
-        className="w-24 h-24 rounded-full mb-4 border-4 border-gray-300 dark:border-gray-600"
-      />
-      <h3 className="text-2xl font-bold mb-2">{review.name}</h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{review.role}</p>
-      <p className="text-gray-700 dark:text-gray-300 mb-4">"{review.review}"</p>
+    <div className="shadow-xl rounded-3xl p-6 text-center flex flex-col items-center border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900">
+      <div className="w-16 h-16 flex items-center justify-center bg-cyan-500 dark:bg-cyan-700 rounded-full text-white text-2xl font-bold mb-4">
+        {review.name.charAt(0)}
+      </div>
+      <h3 className="text-2xl font-bold mb-2 text-cyan-700 dark:text-cyan-400">{review.name}</h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{review.role}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-500 mb-3">{review.date}</p>
+      <p className="text-gray-800 dark:text-gray-300 italic mb-4">"{review.review}"</p>
       <div className="flex justify-center space-x-1">
         {Array.from({ length: review.rating }).map((_, index) => (
           <span key={index} className="text-yellow-500 text-lg">★</span>
@@ -54,20 +53,34 @@ const ReviewCard = ({ review }) => {
 
 const ReviewsSection = () => {
   return (
-    <section className="w-11/12 mx-auto mt-10 py-10">
-      <h2 className="text-4xl font-bold text-center text-cyan-500 mb-10">What Our Users Say</h2>
+    <section className="w-11/12 mx-auto mt-10 py-12">
+      <h2 className="text-4xl font-extrabold text-center mb-10 text-cyan-700 dark:text-cyan-400">What Our Users Say</h2>
       <Carousel 
         showArrows={true} 
         autoPlay={true} 
         infiniteLoop={true} 
         showThumbs={false} 
         showStatus={false} 
-        interval={5000} 
-        transitionTime={700} 
-        className="text-gray-900 dark:text-white"
+        interval={4000} 
+        transitionTime={600} 
+        className="text-gray-900 dark:text-white px-6"
+        renderArrowPrev={(clickHandler, hasPrev) =>
+          hasPrev && (
+            <button onClick={clickHandler} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-200 dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-300">
+              ◀
+            </button>
+          )
+        }
+        renderArrowNext={(clickHandler, hasNext) =>
+          hasNext && (
+            <button onClick={clickHandler} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-200 dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-300">
+              ▶
+            </button>
+          )
+        }
       >
         {reviewsData.map((review) => (
-          <div key={review.id}>
+          <div key={review.id} className="px-4">
             <ReviewCard review={review} />
           </div>
         ))}

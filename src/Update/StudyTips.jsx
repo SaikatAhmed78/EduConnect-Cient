@@ -1,5 +1,5 @@
 import React from "react";
-import { FaLightbulb, FaClock, FaBookOpen, FaPenFancy, FaBrain } from "react-icons/fa";
+import { FaLightbulb, FaClock, FaBookOpen, FaPenFancy, FaBrain, FaUserFriends } from "react-icons/fa";
 
 const tips = [
   {
@@ -26,6 +26,11 @@ const tips = [
     icon: <FaBrain className="text-primary text-4xl" />,
     title: "Mindfulness & Focus",
     description: "Practice mindfulness techniques to improve concentration during study sessions.",
+  },
+  {
+    icon: <FaUserFriends className="text-primary text-4xl" />,
+    title: "Collaborative Learning",
+    description: "Study with friends to share knowledge and motivate each other.",
   },
 ];
 

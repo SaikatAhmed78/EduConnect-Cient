@@ -25,6 +25,7 @@ import SessionDetailsCard from "../Components/Student Dashboard/Session Details 
 import AllSessionsP from "../Components/Student Dashboard/all session page/AllSessionsP";
 import DashboardHomeS from "../Update/DashboardHomeS";
 import StudentDashboardDA from "../Update/StudentDashboardDA";
+import TutorDashboardU from "../Update/TutorDashboardU";
 
 
 const router = createBrowserRouter([
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
 
 
             // tutor 
+            {
+                path: 'tutorDS',
+                element: <TutorDashboardU></TutorDashboardU>
+            },
             {
                 path: 'create-study-session',
                 element: <CreateStudySession></CreateStudySession>

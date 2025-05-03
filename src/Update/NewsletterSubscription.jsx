@@ -11,7 +11,6 @@ const NewsletterSubscription = () => {
         e.preventDefault();
         setIsLoading(true);
 
-        // Fake delay for demonstration
         setTimeout(() => {
             setMessage('Subscription successful! 🎉');
             setIsLoading(false);
@@ -20,11 +19,12 @@ const NewsletterSubscription = () => {
     };
 
     return (
-        <div className="relative p-10 rounded-2xl shadow-2xl my-10 backdrop-blur-sm bg-opacity-20 border border-gray-700">
-            <h2 className="text-3xl font-extrabold mb-4 text-white">
+        <div className="w-11/12 mx-auto relative p-10 rounded-2xl shadow-2xl my-10 backdrop-blur-sm bg-opacity-20 border border-gray-700">
+            <h1 className="text-4xl font-bold text-cyan-400 text-center mb-2">Welcome to Our Community!</h1>
+            <h2 className="text-3xl font-extrabold mb-4 text-cyan-500">
                 Subscribe to Our Newsletter
             </h2>
-            <p className="mb-6 text-gray-300">
+            <p className="mb-6 text-teal-400">
                 Get the latest updates and study tips straight to your inbox!
             </p>
 
@@ -54,9 +54,8 @@ const NewsletterSubscription = () => {
                 </button>
             </form>
 
-            {/* Feedback Message */}
             {message && (
-                <p className="mt-4 text-green-400 font-semibold">{message}</p>
+                <p className="mt-4 text-green-400 font-semibold text-center">{message}</p>
             )}
         </div>
     );
