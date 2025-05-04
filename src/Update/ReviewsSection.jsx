@@ -63,20 +63,8 @@ const ReviewsSection = () => {
         interval={4000} 
         transitionTime={600} 
         className="text-gray-900 dark:text-white px-6"
-        renderArrowPrev={(clickHandler, hasPrev) =>
-          hasPrev && (
-            <button onClick={clickHandler} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-200 dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-300">
-              ◀
-            </button>
-          )
-        }
-        renderArrowNext={(clickHandler, hasNext) =>
-          hasNext && (
-            <button onClick={clickHandler} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-200 dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-300">
-              ▶
-            </button>
-          )
-        }
+
+     
       >
         {reviewsData.map((review) => (
           <div key={review.id} className="px-4">

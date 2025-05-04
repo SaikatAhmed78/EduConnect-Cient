@@ -19,7 +19,7 @@ const TrendingSessions = () => {
   if (isError) return <div className="text-center py-10 text-red-500">Failed to load trending sessions.</div>;
 
   return (
-    <div className="w-11/12 mx-auto mt-10">
+    <div className="w-11/12 mx-auto mt-16">
       <h2 className="text-4xl font-bold text-center mb-10 text-cyan-500 flex items-center justify-center gap-2">
         <Flame className="text-red-500 animate-pulse" /> Trending Sessions
       </h2>
