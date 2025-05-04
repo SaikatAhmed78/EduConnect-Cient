@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosAdmin = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://edu-connect-server-five.vercel.app',
     withCredentials: true
 
 })

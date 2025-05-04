@@ -28,14 +28,12 @@ const TutorStaticks = () => {
     return (
         <section className="py-12 px-4 mt-10">
             <div className="w-11/12 mx-auto">
-            
 
-                <h2 className="text-4xl font-bold text-center mb-10 text-cyan-500 flex items-center justify-center gap-2">
-        <School className="text-red-500 animate-pulse" /> Trending Sessions
-      </h2>
-                <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
-                    Our professional tutors are here to guide your academic journey and empower your learning.
-                </p>
+
+                <h2 className="text-2xl  md:text-2xl lg:text-4xl font-bold text-center mb-6 sm:mb-10 text-cyan-500 flex flex-wrap items-center justify-center gap-2 text-balance leading-snug">
+                    <School className="text-red-500 animate-pulse shrink-0" />
+                    <span className="text-center">Your Learning Journey Begins with Our Tutors</span>
+                </h2>
 
                 <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {users.slice(0, 6).map((user) => (
