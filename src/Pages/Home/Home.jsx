@@ -16,12 +16,12 @@ const Home = () => {
             <Banner></Banner>
             <div className='w-11/12 mx-auto pt-5'>
                 <SessionCard/>
-                <FeaturesSection/>
                 <StudyTips/>
                 <StudyRoadmap/>
                 <TutorStaticks/>
-                <ReviewsSection/>
+                <FeaturesSection/>
                 <FAQSection></FAQSection>
+                <ReviewsSection/>
                 <NewsletterSubscription/>
 
             </div>

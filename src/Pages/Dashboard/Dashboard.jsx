@@ -47,8 +47,8 @@ const Dashboard = () => {
   else if (isTutor) menuItems = tutorMenuItems;
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden">
-      {/* Sidebar */}
+    <div className="flex">
+     
       <aside className={`fixed z-30 ${isSidebarOpen ? 'w-64' : 'w-20'} transition-all duration-300 h-full bg-white/80 backdrop-blur-lg border-r border-blue-200 shadow-xl`}>
         <div className="flex items-center justify-between px-4 py-6">
           {isSidebarOpen && (
