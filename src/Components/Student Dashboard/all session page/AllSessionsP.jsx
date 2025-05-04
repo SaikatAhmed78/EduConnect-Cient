@@ -92,7 +92,7 @@ const AllSessionsP = () => {
                                 <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
                                     {description}
                                 </p>
-                                <Link to={`/dashboard/session-details-card/${_id}`}>
+                                <Link to={`/session-details-card/${_id}`}>
                                     <button className="flex items-center justify-center w-full mt-4 px-5 py-2 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 rounded-xl font-semibold shadow-md">
                                         <Info className="w-4 h-4 mr-2" /> Read More
                                     </button>

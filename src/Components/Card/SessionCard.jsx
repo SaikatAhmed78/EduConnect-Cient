@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import useAxiosUser from '../../Hooks/useAxiosUser';
 import LoadingSpinner from '../../Common/Spinner/LoadingSpinner';
-import { CalendarDays, Info } from 'lucide-react';
+import { Book, CalendarDays, Info } from 'lucide-react';
 
 const StudySessions = () => {
     const axiosUser = useAxiosUser();
@@ -23,9 +23,9 @@ const StudySessions = () => {
 
     return (
         <div className="w-11/12 mx-auto mt-12 px-4">
-            <h1 className="text-4xl font-bold text-center text-cyan-600 mb-14 tracking-tight">
-                📚 Upcoming Study Sessions
-            </h1>
+            <h2 className="text-4xl font-bold text-center mb-10 text-cyan-500 flex items-center justify-center gap-2">
+        <Book className="text-green-500 animate-pulse" />Upcoming Study Sessions
+      </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 {approvedSessions.map(({ _id, title, description, startDate, image, registrationStartDate, registrationEndDate }) => {
@@ -81,7 +81,7 @@ const StudySessions = () => {
                                 <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
                                     {description}
                                 </p>
-                                <Link to={`dashboard/session-details-card/${_id}`}>
+                                <Link to={`/session-details-card/${_id}`}>
                                     <button className="flex items-center justify-center w-full mt-4 px-5 py-2 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 rounded-xl font-semibold shadow-md">
                                         <Info className="w-4 h-4 mr-2" /> Read More
                                     </button>

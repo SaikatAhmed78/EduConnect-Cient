@@ -54,6 +54,14 @@ const router = createBrowserRouter([
                 path: '/aboutUs',
                 element: <AboutUs></AboutUs>
             },
+            {
+                path: 'session/:id',
+                element: <SessionDetail></SessionDetail>
+            },
+            {
+                path: 'session-details-card/:id',
+                element: <SessionDetailsCard></SessionDetailsCard>
+            },
 
         ]
     },
@@ -61,7 +69,6 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
-        errorElement: <ErrorPage></ErrorPage>,
 
 
         children: [
@@ -83,14 +90,7 @@ const router = createBrowserRouter([
                 path: 'view-booked-session',
                 element: <ViewBookedSessions></ViewBookedSessions>
             },
-            {
-                path: 'session/:id',
-                element: <SessionDetail></SessionDetail>
-            },
-            {
-                path: 'session-details-card/:id',
-                element: <SessionDetailsCard></SessionDetailsCard>
-            },
+            
             {
                 path: 'view-study-meterials',
                 element: <ViewStudyMaterials></ViewStudyMaterials>

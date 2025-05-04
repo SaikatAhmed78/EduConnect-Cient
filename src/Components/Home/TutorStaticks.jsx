@@ -4,6 +4,7 @@ import useAxiosUser from "../../Hooks/useAxiosUser";
 import { MdEmail } from "react-icons/md";
 import { FaUserTie, FaChalkboardTeacher, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { School } from "lucide-react";
 
 const TutorStaticks = () => {
     const axiosUser = useAxiosUser();
@@ -27,9 +28,11 @@ const TutorStaticks = () => {
     return (
         <section className="py-12 px-4 mt-10">
             <div className="w-11/12 mx-auto">
-                <h2 className="text-4xl font-extrabold text-center mb-4 text-cyan-600 dark:text-cyan-300 tracking-wide">
-                    Meet Our Tutors
-                </h2>
+            
+
+                <h2 className="text-4xl font-bold text-center mb-10 text-cyan-500 flex items-center justify-center gap-2">
+        <School className="text-red-500 animate-pulse" /> Trending Sessions
+      </h2>
                 <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
                     Our professional tutors are here to guide your academic journey and empower your learning.
                 </p>

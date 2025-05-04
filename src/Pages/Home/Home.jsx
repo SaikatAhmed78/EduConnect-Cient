@@ -8,6 +8,7 @@ import FAQSection from '../../Update/FAQSection';
 import StudyTips from '../../Update/StudyTips';
 import NewsletterSubscription from '../../Update/NewsletterSubscription';
 import StudyRoadmap from '../../Update/StudyRoadmap';
+import TrendingSessions from '../../Update/TrendingSessions';
 
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
             <Banner></Banner>
             <div className='w-11/12 mx-auto pt-5'>
                 <SessionCard/>
+                <TrendingSessions/>
                 <StudyTips/>
                 <StudyRoadmap/>
                 <TutorStaticks/>

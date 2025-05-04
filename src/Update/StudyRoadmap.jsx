@@ -1,4 +1,4 @@
-import { FaMapMarkerAlt, FaBook, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaGraduationCap, FaRocket } from "react-icons/fa";
+import { FaMapMarkerAlt, FaBook, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaGraduationCap, FaRocket, FaRoad } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const roadmapData = [
@@ -14,10 +14,10 @@ const roadmapData = [
 const StudyRoadmap = () => {
   return (
     <section className="py-20 px-4 duration-500">
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-cyan-500">
-        🚀 Study Roadmap
+      
+      <h2 className="text-4xl font-bold text-center mb-10 text-cyan-500 flex items-center justify-center gap-2">
+        <FaRoad className="text-red-500 animate-pulse" /> Study Roadmap
       </h2>
-
       <div className="relative max-w-6xl mx-auto">
         <div className="border-l-4 border-primary dark:border-green-400 absolute h-full left-1/2 transform -translate-x-1/2 z-0"></div>
 

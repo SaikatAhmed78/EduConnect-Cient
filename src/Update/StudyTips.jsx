@@ -1,3 +1,4 @@
+import { Plane } from "lucide-react";
 import React from "react";
 import { FaLightbulb, FaClock, FaBookOpen, FaPenFancy, FaBrain, FaUserFriends } from "react-icons/fa";
 
@@ -38,7 +39,10 @@ const StudyTips = () => {
   return (
     <section className="mt-10 py-16">
       <div className="w-11/12 mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8 text-cyan-500">Study Tips for Success</h2>
+
+        <h2 className="text-4xl font-bold text-center mb-10 text-cyan-500 flex items-center justify-center gap-2">
+        <Plane className="text-red-500 animate-pulse" /> Study Tips for Success
+      </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {tips.map((tip, index) => (
             <div
