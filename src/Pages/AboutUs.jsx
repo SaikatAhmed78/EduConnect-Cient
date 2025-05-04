@@ -4,33 +4,36 @@ const AboutUs = () => {
     return (
         <div className="text-gray-900 dark:text-gray-100">
             
-            <section className="relative bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20">
-                <div className="container mx-auto px-6 lg:px-20 text-center">
-                    <h1 className="text-4xl lg:text-6xl font-bold mb-4">
+            {/* Hero Section */}
+            <section className="relative bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20 px-6 lg:px-20">
+                <div className="absolute inset-0 bg-black opacity-40"></div>
+                <div className="container mx-auto relative text-center z-10">
+                    <h1 className="text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-wide leading-tight">
                         Welcome to Collaborative Study Platform
                     </h1>
-                    <p className="text-lg lg:text-xl">
+                    <p className="text-lg lg:text-xl font-medium">
                         Bridging the gap between students and tutors through innovative learning.
                     </p>
                 </div>
             </section>
 
-            <section className="py-16">
+            {/* Mission Section */}
+            <section className="py-20 text-center">
                 <div className="container mx-auto px-6 lg:px-20">
-                    <h2 className="text-3xl lg:text-4xl text-cyan-500 font-bold text-center mb-8">Our Mission</h2>
-                    <p className="text-lg text-center text-teal-500 leading-relaxed">
-                        At Collaborative Study Platform, we aim to create a seamless educational
-                        experience by connecting students with expert tutors and providing an
-                        inclusive environment for learning, collaboration, and growth.
+                    <h2 className="text-4xl text-cyan-500 font-bold mb-6">Our Mission</h2>
+                    <p className="text-lg text-teal-500 leading-relaxed max-w-3xl mx-auto">
+                        At Collaborative Study Platform, we aim to create a seamless educational experience by connecting students with expert tutors and providing an inclusive environment for learning, collaboration, and growth.
                     </p>
                 </div>
             </section>
 
-            <section className="py-16">
-                <div className="container mx-auto px-6 lg:px-20">
-                    <h2 className="text-3xl lg:text-4xl text-cyan-500 font-bold text-center mb-12">What We Offer</h2>
+            {/* What We Offer Section */}
+            <section className="py-20">
+                <div className="container mx-auto px-6 lg:px-20 text-center">
+                    <h2 className="text-4xl text-cyan-500 font-bold mb-12">What We Offer</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        <div className="text-center">
+                        {/* Expert Tutors */}
+                        <div className="transition-all transform hover:scale-105 duration-300 text-center p-6 shadow-xl rounded-lg hover:bg-indigo-50">
                             <div className="flex items-center justify-center w-16 h-16 bg-blue-500 text-white rounded-full mx-auto mb-6">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -47,14 +50,14 @@ const AboutUs = () => {
                                     />
                                 </svg>
                             </div>
-                            <h3 className="text-xl font-semibold text-cyan-400 mb-4">Expert Tutors</h3>
+                            <h3 className="text-2xl font-semibold text-cyan-400 mb-4">Expert Tutors</h3>
                             <p className="text-teal-400">
-                                Learn from highly qualified and experienced tutors dedicated to
-                                your success.
+                                Learn from highly qualified and experienced tutors dedicated to your success.
                             </p>
                         </div>
 
-                        <div className="text-center">
+                        {/* Interactive Learning */}
+                        <div className="transition-all transform hover:scale-105 duration-300 text-center p-6 shadow-xl rounded-lg hover:bg-indigo-50">
                             <div className="flex items-center justify-center w-16 h-16 bg-indigo-500 text-white rounded-full mx-auto mb-6">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -71,14 +74,14 @@ const AboutUs = () => {
                                     />
                                 </svg>
                             </div>
-                            <h3 className="text-xl text-cyan-400 font-semibold mb-4">Interactive Learning</h3>
-                            <p className=" text-teal-400">
-                                Engage in collaborative and interactive study sessions designed to
-                                enhance understanding.
+                            <h3 className="text-2xl font-semibold text-cyan-400 mb-4">Interactive Learning</h3>
+                            <p className="text-teal-400">
+                                Engage in collaborative and interactive study sessions designed to enhance understanding.
                             </p>
                         </div>
 
-                        <div className="text-center">
+                        {/* Resource Sharing */}
+                        <div className="transition-all transform hover:scale-105 duration-300 text-center p-6 shadow-xl rounded-lg hover:bg-indigo-50">
                             <div className="flex items-center justify-center w-16 h-16 bg-green-500 text-white rounded-full mx-auto mb-6">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -95,25 +98,26 @@ const AboutUs = () => {
                                     />
                                 </svg>
                             </div>
-                            <h3 className="text-xl text-cyan-400 font-semibold mb-4">Resource Sharing</h3>
+                            <h3 className="text-2xl font-semibold text-cyan-400 mb-4">Resource Sharing</h3>
                             <p className="text-teal-400">
-                                Access a library of study materials and share your notes for
-                                collaborative growth.
+                                Access a library of study materials and share your notes for collaborative growth.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-12">
-                <div className="container mx-auto px-6 lg:px-20 text-center">
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+            {/* Call to Action Section */}
+            <section className="relative bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-20">
+                <div className="absolute inset-0 bg-black opacity-40"></div>
+                <div className="container mx-auto px-6 lg:px-20 text-center relative z-10">
+                    <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                         Ready to Transform Your Learning Experience?
                     </h2>
                     <p className="text-lg mb-6">
                         Join our platform today and embark on a journey to academic success.
                     </p>
-                    <button className="px-6 py-3 bg-white text-indigo-600 font-semibold rounded-full shadow-lg hover:bg-gray-100">
+                    <button className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-full shadow-xl transform transition-all hover:bg-gray-100 hover:scale-105">
                         Get Started
                     </button>
                 </div>
