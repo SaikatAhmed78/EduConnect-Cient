@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosUser from "../../Hooks/useAxiosUser";
 import { toast } from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
 
 const Social = () => {
-    const { signInWithGoogle, signInWithFacebook } = useAuth();
+    const { signInWithGoogle } = useAuth();
     const axiosUser = useAxiosUser();
     const navigate = useNavigate();
 
-    // Handle Google Sign-In
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then((result) => {
@@ -16,75 +16,31 @@ const Social = () => {
                     email: result.user.email,
                     name: result.user.displayName,
                 };
-                
+
                 axiosUser.post("/signup", userInfo).then((response) => {
                     if (response.data.insertedId) {
-                        toast.success("Logged in successfully! Welcome back!");
+                        toast.success(`Welcome, ${userInfo.name}!`);
                     } else {
-                        toast.info("User already exists! Welcome back!");
+                        toast.success("Welcome back!");
                     }
                     navigate("/");
                 });
             })
             .catch((err) => {
                 console.error("Google Authentication Error:", err);
-                toast.error("Google authentication failed!");
-            });
-    };
-
-    // Handle Facebook Sign-In
-    const handleFacebookSignIn = () => {
-        signInWithFacebook()
-            .then((result) => {
-                const userInfo = {
-                    email: result.user.email,
-                    name: result.user.displayName,
-                };
-                
-                axiosUser.post("/signup", userInfo).then((response) => {
-                    if (response.data.insertedId) {
-                        toast.success("Logged in successfully! Welcome back!");
-                    } else {
-                        toast.info("User already exists! Welcome back!");
-                    }
-                    navigate("/");
-                });
-            })
-            .catch((err) => {
-                console.error("Facebook Authentication Error:", err);
-                toast.error("Facebook authentication failed!");
+                toast.error("Google sign-in failed.");
             });
     };
 
     return (
-        <div className="flex flex-col items-center gap-4">
-            <div className="flex gap-4">
-                {/* Google Sign-In Button */}
-                <button
-                    onClick={handleGoogleSignIn}
-                    className="bg-[#4285F4] text-white rounded-lg py-3 px-5 flex items-center gap-3 text-lg shadow-md hover:bg-[#357ae8] transition-all duration-200"
-                >
-                    <img
-                        src="https://i.ibb.co/dQMmB8h/download-4-removebg-preview-1.png"
-                        alt="Google logo"
-                        className="w-6"
-                    />
-                    Sign in with Google
-                </button>
-                
-                {/* Facebook Sign-In Button */}
-                <button
-                    onClick={handleFacebookSignIn}
-                    className="bg-[#1877F2] text-white rounded-lg py-3 px-5 flex items-center gap-3 text-lg shadow-md hover:bg-[#166fe5] transition-all duration-200"
-                >
-                    <img
-                        src="https://i.ibb.co/ykV1b9V/facebook-icon.png"
-                        alt="Facebook logo"
-                        className="w-6"
-                    />
-                    Continue with Facebook
-                </button>
-            </div>
+        <div className="w-full flex items-center justify-center">
+            <button
+                onClick={handleGoogleSignIn}
+                className="w-full md:w-auto bg-white/80 backdrop-blur-md text-gray-800 border border-gray-300 hover:border-gray-400 rounded-xl px-6 py-3 flex items-center justify-center gap-3 text-base font-medium shadow-md hover:shadow-lg hover:bg-white transition-all duration-200"
+            >
+                <FcGoogle className="text-2xl" />
+                <span className="whitespace-nowrap">Sign in with Google</span>
+            </button>
         </div>
     );
 };

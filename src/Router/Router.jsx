@@ -60,7 +60,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'session-details-card/:id',
-                element: <SessionDetailsCard></SessionDetailsCard>
+                element: <PrivateRoute><SessionDetailsCard></SessionDetailsCard></PrivateRoute>
             },
 
         ]
